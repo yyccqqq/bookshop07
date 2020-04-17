@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>编辑个人信息</title>
+    <link rel="stylesheet" type="text/css" href="../css/reset.css">
+    <link rel="stylesheet" type="text/css" href="../css/upload.css">
+    <link rel="stylesheet" type="text/css" href="../plugin/layui/css/layui.css">
+    <link href="http://cn-zz-bgp.sakurafrp.com:10341/group1/logo/logo.jpg" rel="icon" type="image/x-icon"/>
+    <link href="http://cn-zz-bgp.sakurafrp.com:10341/group1/logo/logo.jpg" rel="shortcut icon" type="image/x-icon"/>
+    <script src="../js/jquery-3.2.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js"></script>
+    <script src="../js/base_nopagination.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../plugin/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/controller/baseController.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/service/userService.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/controller/userController.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+<nav class="navbar">
+    <div class="nav-menu">
+        <ul class="menu">
+            <li><a class="active" href="index.html">首页</a></li>
+            <li><a href="goodBookList.html">书籍良品</a></li>
+            <li><a href="askBookList.html">求书区</a></li>
+            <li><a href="#">服务区</a></li>
+        </ul>
+    </div><!-- nav-menu -->
+
+    <form class="nav-search">
+        <input type="search" class="searchIn" placeholder="搜图书...">
+        <button class="search-logo"><img src="../img/search2.png"></button>
+    </form>
+
+    <div class="nav-info">
+        <a href="cart.html" class="bookshelf">&nbsp;购物车</a>
+        <a href="order-send.html" class="bookshelf">&nbsp;我的订单</a>
+        <a href="myBookshelf.html" class="bookshelf">&nbsp;我的书架</a>
+        <a href="#" class="username">&nbsp;|&nbsp;{{username}}</a>
+        <a href="javascript:void(0)" class="logout" ng-click="logout()">[ 退 出 ]</a>
+    </div> <!-- nav-info-end -->
+</nav>
+
+<div class="titleName">
+    <h3>编辑</h3>
+    <p>修改个人信息</p>
+</div>
+
+<div class="container" ng-app="bookshop" ng-controller="userController" ng-init="findMy()">
+    <form class="upload-form" method="post">
+        <p>
+            <span class="name-icon">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：{{entity.studentId}}
+        </p>
+        <p>
+            <span class="name-icon">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：<input
+                type="text" name="name" ng-model="entity.name" onfocus="clearnamemsg()">&nbsp;&nbsp;
+            <span id="namemsg" style="font-size: 13px;color: red"></span>
+        </p>
+        <p>
+            <span class="name-icon">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：
+            <select name="sex" ng-model="entity.sex" onfocus="clearsexmsg()">
+                <option value="" selected="selected">--请选择性别--</option>
+                <option value="m">男</option>
+                <option value="f">女</option>
+            </select>&nbsp;&nbsp;
+            <span id="sexmsg" style="font-size: 13px;color: red"></span>
+        </p>
+        <p>
+            <span class="name-icon">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            联&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;系：<input
+                type="text" name="tel" ng-model="entity.tel" onfocus="cleartelmsg()">&nbsp;&nbsp;
+            <span id="telmsg" style="font-size: 13px;color: red"></span>
+
+        </p>
+        <p>
+            <span class="name-icon">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            住&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址：<input
+                type="text" name="address" ng-model="entity.address" onfocus="clearaddressmsg()">&nbsp;&nbsp;
+            <span id="addressmsg" style="font-size: 13px;color: red"></span>
+        </p>
+        <p>
+            <span class="name-icon">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            年&nbsp;&nbsp;&nbsp;&nbsp;级&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;专&nbsp;&nbsp;&nbsp;&nbsp;业：<input type="text"
+                                                                                                      name="major"
+                                                                                                      ng-model="entity.major"
+                                                                                                      onfocus="clearmajormsg()">&nbsp;&nbsp;
+            <span id="majormsg" style="font-size: 13px;color: red"></span>
+        </p>
+        <input type="button" class="submit-btn" name="book-submit" value="提交" ng-click="updateUser()">
+    </form>
+</div>
+<footer>
+    <a href="#">©2016-2020 二手书交易</a>
+    <a href="#">意见反馈&nbsp;&nbsp;&nbsp;联系我们&nbsp;&nbsp;&nbsp;隐私权声明&nbsp;&nbsp;&nbsp;使用条款</a>
+</footer>
+</body>
+</html>

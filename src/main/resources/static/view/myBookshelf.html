@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>我的书架</title>
+    <link rel="stylesheet" type="text/css" href="../css/reset.css">
+    <link rel="stylesheet" type="text/css" href="../css/myBookshelf.css">
+    <link href="http://cn-zz-bgp.sakurafrp.com:10341/group1/logo/logo.jpg" rel="icon" type="image/x-icon"/>
+    <link href="http://cn-zz-bgp.sakurafrp.com:10341/group1/logo/logo.jpg" rel="shortcut icon" type="image/x-icon"/>
+    <script src="../js/jquery-3.2.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/myBookshelf.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="../plugin/layui/css/layui.css">
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+    <script src="../plugin/angular.min.js"></script>
+    <script src="../js/base_nopagination.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../plugin/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/controller/baseController.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/service/bookService.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/service/userService.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/service/uploadService.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/service/askBookService.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/controller/myBookshelfController.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body ng-app="bookshop" ng-controller="myBookshelfController" ng-init="findMySellBook()">
+<!-- 导航条 -->
+<nav class="navbar">
+    <div class="nav-menu">
+        <ul class="menu">
+            <li><a class="active" href="index.html">首页</a></li>
+            <li><a href="goodBookList.html">书籍良品</a></li>
+            <li><a href="askBookList.html">求书区</a></li>
+            <li><a href="#">服务区</a></li>
+        </ul>
+    </div><!-- nav-menu -->
+
+    <form class="nav-search">
+        <input type="search" class="searchIn" placeholder="搜图书...">
+        <button class="search-logo"><img src="../img/search2.png"></button>
+    </form>
+
+    <div class="nav-info">
+        <a href="cart.html" class="bookshelf">&nbsp;购物车</a>
+        <a href="order-send.html" class="bookshelf">&nbsp;我的订单</a>
+        <a href="myBookshelf.html" class="bookshelf">&nbsp;我的书架</a>
+        <a href="#" class="username">&nbsp;|&nbsp;{{username}}</a>
+        <a href="javascript:void(0)" class="logout" ng-click="logout()">[ 退 出 ]</a>
+    </div> <!-- nav-info-end -->
+</nav>
+
+<!-- 个人信息 -->
+<div class="person-info">
+    <p>
+        <a href="javascript:void(0)" class="name">{{user.name}}</a>
+    </p>
+    <p>
+        <span ng-if="user.sex == 'm'">
+              <a href="javascript:void(0)" class="sex">男</a><img src="../img/boy.png" class="sex-pic">
+        </span>
+        <span ng-if="user.sex == 'f'">
+              <a href="javascript:void(0)" class="sex">女</a><img src="../img/girl.png" class="sex-pic">
+        </span>
+    </p>
+    <p class="set">
+        <a href="editMyInfo.html" class="edit">编辑个人主页</a>
+        <a href="editPassword.html" class="edit">修改登录密码</a>
+        <img class="set-icon" src="../img/setting.png">
+    </p>
+    <div class="contact">
+        <p>
+            <span class="call-icon"></span>
+            联&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;系：
+            <a href="#" class="num">{{user.tel}}</a></p>
+        <p>
+            <span class="address-icon"></span>
+            住&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址：<a href="#" class="address">{{user.address}}</a>
+        </p>
+        <p>
+            <span class="major-icon"></span>
+            年级专业：<a href="#" class="major">{{user.major}}</a>
+        </p>
+    </div>
+</div><!-- person-info-end -->
+
+<!-- 书摊和求书选项卡 -->
+<div class="card-btn">
+    <span title="sell-book" id="sell-btn" class="active">我的书摊</span>
+    <span title="ask-book" id="ask-btn" ng-click="findMyAskBook()">我的求书</span>
+    <p class="upload-icon"></p>
+    <a id="sell-upload" href="sellUpload.html">上传书至书摊</a>
+    <a id="ask-upload" href="askUpload.html">上传求书信息</a>
+    <a id="delete-book" href="javascript:void(0)" ng-click="deleteSellBook()">删除所选图书</a>
+    <a id="delete-ask" href="javascript:void(0)" ng-click="deleteAskBook()">删除求书信息</a>
+</div>
+
+<!-- 我的书摊 -->
+<div id="container">
+    <div id="sell-book">
+        <ul class="book-ul">
+            <li class="book-list" ng-repeat="entity in entityList">
+                <p class="book-pic">
+                    <img ng-src="{{entity.image}}">
+                </p>
+                <h5 class="book-name">{{entity.name}}</h5>
+                <span class="delete-btn" ng-click="updateSellBookSelect($event,entity.id)"></span>
+                <a class="edit-btn" href="editSellBook.html#?bookId={{entity.id}}"></a>
+                <div class="book-detail">
+                    <p>原&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价：<span
+                            class="original-price">￥{{entity.originalPrice}}</span></p>
+                    <p>售&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价：<span class="book-price">￥{{entity.price}}</span></p>
+                    <p>品&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;相：<span class="book-condition">{{entity.degree}}成新</span>
+                    </p>
+                    <p>商品状态：
+                        <span class="book-desc" ng-if="entity.bookType == 0">未上架</span>
+                        <span class="book-desc" ng-if="entity.bookType == 1">售卖中</span>
+                        <span class="book-desc" ng-if="entity.bookType == 2">已出售</span>
+                    </p>
+                </div>
+            </li>
+        </ul>
+        <div style="text-align: center" id="page"></div>
+    </div> <!-- sell-book-end -->
+
+    <!-- 我的求书 -->
+    <div id="ask-book">
+        <ul class="book-ul">
+            <li class="book-list" ng-repeat="entity in askBookList">
+                <a class="book-pic" href="askBook/{{entity.id}}.html">
+                    <img ng-src="{{entity.image}}">
+                </a>
+                <span class="delete-btn" ng-click="updateAskBookSelect($event,entity.id)"></span>
+                <h5 class="book-name">{{entity.name}}</h5>
+                <a class="edit-btn" href="editAskBook.html#?bookId={{entity.id}}"></a>
+                <div class="book-detail">
+                    <p>作&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;者：<span class="book-author">{{entity.author}}</span></p>
+                    <p>出&nbsp; 版&nbsp;社：<span class="book-press">{{entity.press}}</span></p>
+                </div>
+            </li>
+        </ul>
+        <div style="text-align: center" id="page2"></div>
+    </div><!-- ask-book-end-->
+</div> <!-- container-end -->
+<footer>
+    <a href="#">©2016-2020 二手书交易</a>
+    <a href="#">意见反馈&nbsp;&nbsp;&nbsp;联系我们&nbsp;&nbsp;&nbsp;隐私权声明&nbsp;&nbsp;&nbsp;使用条款</a>
+</footer>
+<script src="../js/jquery-3.2.js" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>

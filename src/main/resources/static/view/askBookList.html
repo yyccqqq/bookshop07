@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>求书区</title>
+    <link rel="stylesheet" type="text/css" href="../css/book.css">
+    <link rel="stylesheet" type="text/css" href="../plugin/layui/css/layui.css">
+    <link href="http://cn-zz-bgp.sakurafrp.com:10341/group1/logo/logo.jpg" rel="icon" type="image/x-icon"/>
+    <link href="http://cn-zz-bgp.sakurafrp.com:10341/group1/logo/logo.jpg" rel="shortcut icon" type="image/x-icon"/>
+    <script src="../plugin/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/jquery-3.2.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+    <script src="https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js"></script>
+    <script src="../js/base_nopagination.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/controller/baseController.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/service/askBookService.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/controller/askBookController.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body ng-app="bookshop" ng-controller="askBookController" ng-init="finAskBook()">
+<!-- 导航 -->
+<header>
+    <nav class="navbar">
+        <div class="nav-info">
+            <a href="cart.html" class="bookshelf">&nbsp;购物车</a>
+            <a href="order-send.html" class="bookshelf">&nbsp;我的订单</a>
+            <a href="myBookshelf.html" class="bookshelf">&nbsp;我的书架</a>
+            <a href="#" class="username">&nbsp;|&nbsp;{{username}}</a>
+            <a href="javascript:void(0)" class="logout" ng-click="logout()">[ 退 出 ]</a>
+        </div> <!-- nav-info -->
+        <div class="nav-search">
+            <a href="index.html"><img class="logo" src="../img/logo2.png"></a>
+            <div class="search-form">
+                <input type="search" class="searchIn" ng-model="keyword" placeholder="关键字..." id="tip">
+                <a href="javascript:void(0)" class="search-logo">| &nbsp;<img src="../img/search.png"></a>
+                <button class="searchBtn" ng-click="doSearch()">搜索</button>
+            </div>
+        </div><!--  nav-search -->
+        <ul class="menu">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="goodBookList.html">书籍良品</a></li>
+            <li><a class="active" href="askBookList.html">求书区</a></li>
+            <li><a href="#">服务区</a></li>
+        </ul>
+    </nav>
+    <div class="askBook-pic"></div>
+</header>
+<!-- 图书分类 -->
+<div id="container">
+    <div id="book-container">
+        <h3 class="book-title"><a href="#">| 所有求书信息</a></h3>
+        <ul class="book-lists">
+            <li class="book-list" ng-repeat="entity in entityList">
+                <a href="askBook/{{entity.id}}.html" class="book-pic">
+                    <img ng-src="{{entity.image}}">
+                </a>
+                <a href="askBook/{{entity.id}}.html" class="book-info askbook-info">
+                    <h5 class="book-name">{{entity.name}}</h5>
+                    <span class="book-detail">{{entity.author}} 著 / {{entity.press}}</span>
+                </a>
+                <a href="askBook/{{entity.id}}.html" class="book-contact">立即联系求书者</a>
+            </li>
+        </ul><!--  book-list end -->
+    </div> <!-- book-container end-->
+
+    <span class="page-btn">
+		<div style="text-align: center" id="page"></div>
+    </span>
+</div><!-- container end-->
+
+<!-- 脚本 -->
+<footer>
+    <a href="#">©2016-2020 二手书交易</a>
+    <a href="#">意见反馈&nbsp;&nbsp;&nbsp;联系我们&nbsp;&nbsp;&nbsp;隐私权声明&nbsp;&nbsp;&nbsp;使用条款</a>
+</footer>
+</body>
+</html>

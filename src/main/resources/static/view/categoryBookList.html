@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>书籍·种类</title>
+    <link rel="stylesheet" type="text/css" href="../css/book.css">
+    <link rel="stylesheet" type="text/css" href="../plugin/layui/css/layui.css">
+    <link href="http://cn-zz-bgp.sakurafrp.com:10341/group1/logo/logo.jpg" rel="icon" type="image/x-icon" />
+    <link href="http://cn-zz-bgp.sakurafrp.com:10341/group1/logo/logo.jpg" rel="shortcut icon" type="image/x-icon" />    <script src="../js/jquery-3.2.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+    <script src="https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js"></script>
+    <script src="../js/base_nopagination.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../plugin/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/controller/baseController.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/service/bookService.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/controller/bookController.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body ng-app="bookshop" ng-controller="bookController" ng-init="findBookByCategoryId()">
+<!-- 导航 -->
+<header>
+    <nav class="navbar">
+        <div class="nav-info">
+            <a href="cart.html" class="bookshelf">&nbsp;购物车</a>
+            <a href="order-send.html" class="bookshelf">&nbsp;我的订单</a>
+            <a href="myBookshelf.html" class="bookshelf">&nbsp;我的书架</a>
+            <a href="#" class="username">&nbsp;|&nbsp;{{username}}</a>
+            <a href="javascript:void(0)" class="logout" ng-click="logout()">[ 退 出 ]</a>
+        </div> <!-- nav-info -->
+        <div class="nav-search">
+            <a href="index.html"><img class="logo" src="../img/logo2.png"></a>
+            <div class="search-form">
+                <input type="search" class="searchIn" ng-model="keyword" placeholder="关键字..." id="tip">
+                <a href="javascript:void(0)" class="search-logo">| &nbsp;<img src="../img/search.png"></a>
+                <button class="searchBtn" ng-click="doSearch()">搜索</button>
+            </div>
+        </div><!--  nav-search -->
+        <ul class="menu">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="goodBookList.html">书籍良品</a></li>
+            <li><a href="askBookList.html">求书区</a></li>
+            <li><a href="#">服务区</a></li>
+        </ul>
+    </nav>
+    <div class="bookstore-pic"></div>
+</header>
+<!-- 图书分类 -->
+<div id="container">
+    <div id="book-container">
+        <h3 class="book-title"><a href="#">| 所有{{category}}</a></h3>
+        <ul class="book-lists">
+            <li class="book-list" ng-repeat="book in entityList">
+                <a href="book/{{book.id}}.html" class="book-pic">
+                    <img ng-src="{{book.image}}">
+                </a>
+                <a href="book/{{book.id}}.html" class="book-info">
+                    <h5 class="book-name">{{book.name}}</h5>
+                    <span class="book-detail">{{book.author}} 著 / {{book.press}} / {{book.publishDate}} / {{book.version}}</span>
+                </a>
+                <span class="book-price">￥{{book.price}}
+						<a href="book/{{book.id}}.html" class="book-buy">立即下单</a>
+					</span>
+            </li>
+        </ul><!--  book-list end -->
+    </div> <!-- book-container end-->
+    <span class="page-btn">
+        <div style="text-align: center" id="page"></div>
+	</span>
+</div><!-- container end-->
+<footer>
+    <a href="#">©2016-2020 二手书交易</a>
+    <a href="#">意见反馈&nbsp;&nbsp;&nbsp;联系我们&nbsp;&nbsp;&nbsp;隐私权声明&nbsp;&nbsp;&nbsp;使用条款</a>
+</footer>
+<script type="text/javascript" src="../js/jquery-3.2.js"></script>
+<script type="text/javascript">
+    $(function () {
+        //菜单特效
+        var index = 0
+        $("#book-menu-toggle").on("click", function () {
+            if (index === 0) {
+                $("#book-menu").css("left", "1px");
+                $(this).css("left", "178px");
+                index = 1;
+            } else {
+                $("#book-menu").css("left", "-180px");
+                $(this).css("left", "1px");
+                index = 0;
+            }
+        });
+
+        //点击菜单，对应类别颜色加深
+        $(".book-class li").on("click", function () {
+            //加粗当前点击的li
+            $(this).css("font-weight", "600").siblings("li").css("font-weight", "500");
+        });
+    })
+</script>
+</body>
+</html>

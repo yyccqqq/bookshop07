@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>校园二手书交易平台</title>
+    <link rel="stylesheet" type="text/css" href="../css/index.css">
+    <link rel="stylesheet" type="text/css" href="../plugin/layui/css/layui.css">
+    <link href="http://cn-zz-bgp.sakurafrp.com:10341/group1/logo/logo.jpg" rel="icon" type="image/x-icon"/>
+    <link href="http://cn-zz-bgp.sakurafrp.com:10341/group1/logo/logo.jpg" rel="shortcut icon" type="image/x-icon"/>
+    <script src="../js/jquery-3.2.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+    <script src="../plugin/angular.min.js"></script>
+    <script src="../js/base_nopagination.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../plugin/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/controller/baseController.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/service/bookService.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/controller/bookController.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body ng-app="bookshop" ng-controller="bookController" ng-init="findBook()">
+
+<!-- 导航 -->
+<header class="navbar">
+    <div class="nav-info">
+        <a href="cart.html" class="bookshelf">&nbsp;购物车</a>
+        <a href="order-send.html" class="bookshelf">&nbsp;我的订单</a>
+        <a href="myBookshelf.html" class="bookshelf">&nbsp;我的书架</a>
+        <a href="#" class="username">&nbsp;|&nbsp;{{username}}</a>
+        <a href="javascript:void(0)" class="logout" ng-click="logout()">[ 退 出 ]</a>
+    </div> <!-- nav-info -->
+    <form class="nav-search">
+        <a href="index.html"><img class="logo" src="../img/logo2.png"></a>
+        <div class="search-form">
+            <a href="#" class="search-logo">| &nbsp;<img src="../img/search.png"></a>
+            <input type="search" class="searchIn" ng-model="keyword" placeholder="关键字..." id="tip">
+            <button class="searchBtn" ng-click="doSearch()">搜索</button>
+        </div>
+    </form><!--  nav-search -->
+    <ul class="menu">
+        <li><a class="active" href="index.html">首页</a></li>
+        <li><a href="goodBookList.html">书籍良品</a></li>
+        <li><a href="askBookList.html">求书区</a></li>
+        <li><a href="#">服务区</a></li>
+    </ul>
+</header>
+
+<!-- 轮播 -->
+<div class="carousel">
+    <div class="book-guide">
+        <h4>图书导航</h4>
+        <ul class="book-class">
+            <li><a href="categoryBookList.html#?categoryId=1">小说 / 文学 / 语言文字</a></li>
+            <li><a href="categoryBookList.html#?categoryId=2">历史 / 地理 / 艺术</a></li>
+            <li><a href="categoryBookList.html#?categoryId=3">政治 / 法律 / 军事</a></li>
+            <li><a href="categoryBookList.html#?categoryId=4">哲学 / 心理 / 宗教</a></li>
+            <li><a href="categoryBookList.html#?categoryId=5">经济 / 社科 / 综合</a></li>
+            <li><a href="categoryBookList.html#?categoryId=6">童书 / 生活 / 体育</a></li>
+            <li><a href="categoryBookList.html#?categoryId=7">教材 / 教辅 / 考试</a></li>
+            <li><a href="categoryBookList.html#?categoryId=8">工程技术 / 互联网</a></li>
+            <li><a href="categoryBookList.html#?categoryId=9">自然科学 / 医药卫生</a></li>
+        </ul>
+    </div><!-- book-guide -->
+    <div class="slider">
+        <div class="slider-img">
+            <ul class="slider-img-ul">
+                <li><img src="../img/carousel/5.jpg"></li>
+                <li><img src="../img/carousel/1.jpg"></li>
+                <li><img src="../img/carousel/2.jpg"></li>
+                <li><img src="../img/carousel/3.jpg"></li>
+                <li><img src="../img/carousel/4.jpg"></li>
+                <li><img src="../img/carousel/5.jpg"></li>
+                <li><img src="../img/carousel/1.jpg"></li>
+            </ul>
+        </div>
+    </div><!-- 	slider -->
+</div><!-- carousel -->
+
+<!-- 图书分类 -->
+<div id="container" ng-repeat="entity in entityMap.bookResultList">
+    <div class="book-part" id="{{entity.category.id}}">
+        <h3 class="book-title"><a href="categoryBookList.html#?categoryId={{entity.category.id}}">|
+            {{entity.category.name}}</a></h3>
+        <a class="more" href="categoryBookList.html#?categoryId={{entity.category.id}}"> > > 更多</a>
+        <ul class="book-lists">
+            <li class="book-list" ng-repeat="book in entity.bookVoList">
+                <a href="book/{{book.id}}.html" class="book-pic">
+                    <img ng-src="{{book.image}}">
+                </a>
+                <a href="book/{{book.id}}.html" class="book-info">
+                    <h5 class="book-name">{{book.name}}</h5>
+                    <span class="book-detail">{{book.author}} 著 / {{book.press}} / {{book.publishDate}} / {{book.version}}</span>
+                </a>
+                <span class="book-price">￥{{book.price}}
+						<a href="book/{{book.id}}.html" class="book-buy">立即下单</a>
+					</span>
+            </li>
+        </ul><!--  book-list end -->
+    </div><!--  book-part end -->
+</div> <!-- container end-->
+<footer>
+    <a href="#">©2016-2020 二手书交易</a>
+    <a href="#">意见反馈&nbsp;&nbsp;&nbsp;联系我们&nbsp;&nbsp;&nbsp;隐私权声明&nbsp;&nbsp;&nbsp;使用条款</a>
+</footer>
+<script src="../js/jquery-3.2.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="../js/xSlider.js"></script>
+</body>
+</html>

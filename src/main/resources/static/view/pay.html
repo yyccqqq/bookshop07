@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>付款中心</title>
+    <link rel="stylesheet" type="text/css" href="../css/reset.css">
+    <link rel="stylesheet" type="text/css" href="../css/webbase.css">
+    <link rel="stylesheet" type="text/css" href="../css/orderInfo.css">
+    <link rel="stylesheet" type="text/css" href="../css/pages-pay.css">
+    <link rel="stylesheet" type="text/css" href="../plugin/layui/css/layui.css">
+    <link href="http://cn-zz-bgp.sakurafrp.com:10341/group1/logo/logo.jpg" rel="icon" type="image/x-icon" />
+    <link href="http://cn-zz-bgp.sakurafrp.com:10341/group1/logo/logo.jpg" rel="shortcut icon" type="image/x-icon" />    <script src="../js/jquery-3.2.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../plugin/qrious.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+    <script src="https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js"></script>
+    <script src="../js/base_nopagination.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../plugin/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/controller/baseController.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/service/orderService.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/controller/orderController.js" type="text/javascript" charset="utf-8"></script>
+    <style>
+        #wrap img {
+            width: 50px;
+            height: 60px;
+        }
+
+        #wrap th {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        #wrap td {
+            vertical-align: middle;
+            text-align: center;
+        }
+    </style>
+</head>
+<body ng-app="bookshop" ng-controller="orderController" ng-init="getPayUrl()">
+<nav class="navbar">
+    <div class="nav-menu">
+        <ul class="menu">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="goodBookList.html">书籍良品</a></li>
+            <li><a href="askBookList.html">求书区</a></li>
+            <li><a href="#">服务区</a></li>
+        </ul>
+    </div><!-- nav-menu -->
+
+    <form class="nav-search" method="post">
+        <input type="search" class="searchIn" placeholder="搜图书...">
+        <button type="submit" id="search-button" class="search-logo"><img src="../img/search2.png"></button>
+    </form>
+
+    <div class="nav-info">
+        <a href="cart.html" class="bookshelf">&nbsp;购物车</a>
+        <a href="order-send.html" class="bookshelf">&nbsp;我的订单</a>
+        <a href="myBookshelf.html" class="bookshelf">&nbsp;我的书架</a>
+        <a href="#" class="username">&nbsp;|&nbsp;{{username}}</a>
+        <a href="javascript:void(0)" class="logout" ng-click="logout()">[ 退 出 ]</a>
+    </div> <!-- nav-info-end -->
+</nav>
+<!--head-->
+
+<div class="cart py-container">
+
+    <!--主内容-->
+    <div class="checkout py-container  pay">
+        <div class="checkout-tit">
+            <h4 class="fl tit-txt" style="margin-left: 4%"><span class="success-icon"></span><span class="success-info">订单提交成功，请您及时付款!</span>
+            </h4>
+            <span class="fr" style="margin-right: 4%"><em class="sui-lead">应付金额：</em><em class="orange money">￥{{money}}</em>元</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="checkout-steps">
+            <div class="fl weixin">扫码支付</div>
+            <div class="fl sao">
+                <p class="red" id="timeout"></p>
+                <div class="fl code">
+                    <img id="qrCode">
+                    <div class="saosao" style="text-align: center">
+                        <p style="text-align: center">请用支付宝扫一扫</p>
+                        <p style="text-align: center">扫描二维码支付</p>
+                    </div>
+                </div>
+                <div class="fl phone">
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <div class="clearfix footer">
+        <div class="py-container">
+            <div class="footlink">
+                <div class="Mod-service" style="text-align: center">
+                    <p>©2016-2020 校园二手书交易</p>
+                    <p>意见反馈&nbsp;&nbsp;&nbsp;联系我们&nbsp;&nbsp;&nbsp;隐私权声明&nbsp;&nbsp;&nbsp;使用条款</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

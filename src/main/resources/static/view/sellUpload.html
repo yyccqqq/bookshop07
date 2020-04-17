@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>上传二手书至书摊</title>
+    <link rel="stylesheet" type="text/css" href="../css/reset.css">
+    <link rel="stylesheet" type="text/css" href="../css/upload.css">
+    <link rel="stylesheet" type="text/css" href="../plugin/layui/css/layui.css">
+    <link href="http://cn-zz-bgp.sakurafrp.com:10341/group1/logo/logo.jpg" rel="icon" type="image/x-icon" />
+    <link href="http://cn-zz-bgp.sakurafrp.com:10341/group1/logo/logo.jpg" rel="shortcut icon" type="image/x-icon" />    <script src="../js/jquery-3.2.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+    <script src="../plugin/angular.min.js"></script>
+    <script src="../js/base_nopagination.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../plugin/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/controller/baseController.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/service/bookService.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/service/userService.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/service/uploadService.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/service/askBookService.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/controller/myBookshelfController.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body ng-app="bookshop" ng-controller="myBookshelfController">
+<!-- 导航条 -->
+<nav class="navbar">
+    <div class="nav-menu">
+        <ul class="menu">
+            <li><a class="active" href="index.html">首页</a></li>
+            <li><a href="goodBookList.html">书籍良品</a></li>
+            <li><a href="askBookList.html">求书区</a></li>
+            <li><a href="#">服务区</a></li>
+        </ul>
+    </div><!-- nav-menu -->
+
+    <form class="nav-search">
+        <input type="search" class="searchIn" placeholder="搜图书...">
+        <button class="search-logo"><img src="../img/search2.png"></button>
+    </form>
+
+    <div class="nav-info">
+        <a href="cart.html" class="bookshelf">&nbsp;购物车</a>
+        <a href="order-send.html" class="bookshelf">&nbsp;我的订单</a>
+        <a href="myBookshelf.html" class="bookshelf">&nbsp;我的书架</a>
+        <a href="#" class="username">&nbsp;|&nbsp;{{username}}</a>
+        <a href="javascript:void(0)" class="logout" ng-click="logout()">[ 退 出 ]</a>
+    </div> <!-- nav-info-end -->
+</nav>
+<div class="titleName">
+    <h3>上传二手书</h3>
+    <p>设置二手书信息</p>
+</div>
+
+<div class="container">
+    <form class="upload-form">
+        <p>
+            <span class="pic-icon">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            修&nbsp;改&nbsp;&nbsp;图&nbsp;片：<input type="file" name="book-pic" id="file" onfocus="clearpicmsg()">&nbsp;&nbsp;
+            <span id="picmsg" style="font-size: 13px;color: red"></span>
+        </p>
+        <p>
+            <span class="name-icon">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            书&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：<input type="text" name="book-name"
+                                                                                  ng-model="entity.name"
+                                                                                  onfocus="clearnamemsg()">&nbsp;&nbsp;
+            <span id="namemsg" style="font-size: 13px;color: red"></span>
+        </p>
+        <p>
+            <span class="name-icon">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            分&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;类：
+            <select name="categoryid" id="categoryid" ng-model="entity.cid" onfocus="clearcategorymsg()">
+                <option value="" selected="selected">--选择商品分类--</option>
+                <option value="1">小说 / 文学 / 语言文学</option>
+                <option value="2">历史 / 地理 / 艺术</option>
+                <option value="3">政治 / 法律 / 军事</option>
+                <option value="4">哲学 / 心理 / 宗教</option>
+                <option value="5">经济 / 社科 / 综合</option>
+                <option value="6">童书 / 生活 / 体育</option>
+                <option value="7">工程技术 / 互联网</option>
+                <option value="8">教材 / 教辅 / 考试</option>
+                <option value="9">自然科学 / 医药卫生</option>
+            </select>&nbsp;&nbsp;
+            <span id="categorymsg" style="font-size: 13px;color: red"></span>
+        </p>
+        <p>
+            <span class="author-icon">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            作&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;者：<input type="text" name="book-author"
+                                                                                  ng-model="entity.author"
+                                                                                  onfocus="clearauthormsg()">&nbsp;&nbsp;
+            <span id="authormsg" style="font-size: 13px;color: red"></span>
+        </p>
+        <p>
+            <span class="orign-icon">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            书&nbsp;本&nbsp;&nbsp;原&nbsp;价：<input type="text" name="book-orign" ng-model="entity.originalPrice"
+                                                onfocus="clearoriginalpricemsg()">&nbsp;&nbsp;
+            <span id="originalpricemsg" style="font-size: 13px;color: red"></span>
+        </p>
+        <p>
+            <span class="price-icon">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            书&nbsp;本&nbsp;&nbsp;售&nbsp;价：<input type="text" name="book-price" ng-model="entity.price"
+                                                onfocus="clearpricemsg()">&nbsp;&nbsp;
+            <span id="pricemsg" style="font-size: 13px;color: red"></span>
+        </p>
+        <p>
+            <span class="press-icon">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            出&nbsp;&nbsp;&nbsp;&nbsp;版&nbsp;&nbsp;&nbsp;社：<input type="text" name="book-press" ng-model="entity.press"
+                                                                 onfocus="clearpressmsg()">&nbsp;&nbsp;
+            <span id="pressmsg" style="font-size: 13px;color: red"></span>
+        </p>
+        <p>
+            <span class="time-icon">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            出&nbsp;版&nbsp;&nbsp;时&nbsp;间：<input type="month" name="book-time" ng-model="entity.publishDate"
+                                                onfocus="clearpublishdatemsg()">
+            <span id="publishdatemsg" style="font-size: 13px;color: red"></span>
+        </p>
+        <p>
+            <span class="version-icon">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            印&nbsp;刷&nbsp;&nbsp;版&nbsp;本：<input type="text" name="book-version" ng-model="entity.version"
+                                                onfocus="clearversionmsg()">&nbsp;&nbsp;
+            <span id="versionmsg" style="font-size: 13px;color: red"></span>
+        </p>
+        <p>
+            <span class="condition-icon">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            书&nbsp;本&nbsp;&nbsp;品&nbsp;相：<input type="text" name="book-condition" ng-model="entity.degree"
+                                                onfocus="cleardegreemsg()">&nbsp;&nbsp;
+            <span id="degreemsg" style="font-size: 13px;color: red"></span>
+        </p>
+        <p>
+            <span class="desc-icon">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            书&nbsp;本&nbsp;&nbsp;描&nbsp;述：<input type="text" name="book-desc" ng-model="entity.description"
+                                                onfocus="clearbookdescriptionmsg()">&nbsp;&nbsp;
+            <span id="bookdescriptionmsg" style="font-size: 13px;color: red"></span>
+        </p>
+        <input type="button" class="submit-btn" name="book-submit" ng-click="uploadSellBook()" value="提交">
+    </form>
+</div>
+<footer>
+    <a href="#">©2016-2020 二手书交易</a>
+    <a href="#">意见反馈&nbsp;&nbsp;&nbsp;联系我们&nbsp;&nbsp;&nbsp;隐私权声明&nbsp;&nbsp;&nbsp;使用条款</a>
+</footer>
+</body>
+</html>

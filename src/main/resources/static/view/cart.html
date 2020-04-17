@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>购物车</title>
+    <link rel="stylesheet" type="text/css" href="../css/reset.css">
+    <link rel="stylesheet" type="text/css" href="../css/upload.css">
+    <link rel="stylesheet" type="text/css" href="../css/pages-cart.css">
+    <link rel="stylesheet" type="text/css" href="../css/webbase.css">
+    <link rel="stylesheet" type="text/css" href="../plugin/layui/css/layui.css">
+    <link href="http://cn-zz-bgp.sakurafrp.com:10341/group1/logo/logo.jpg" rel="icon" type="image/x-icon" />
+    <link href="http://cn-zz-bgp.sakurafrp.com:10341/group1/logo/logo.jpg" rel="shortcut icon" type="image/x-icon" />    <script src="../js/jquery-3.2.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+    <script src="https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js"></script>
+    <script src="../js/base_nopagination.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../plugin/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/controller/baseController.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/service/cartService.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/controller/cartController.js" type="text/javascript" charset="utf-8"></script>
+    <style>
+        #wrap img {
+            width: 50px;
+            height: 60px;
+        }
+
+        #wrap th {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        #wrap td {
+            vertical-align: middle;
+            text-align: center;
+        }
+    </style>
+</head>
+<body ng-app="bookshop" ng-controller="cartController" ng-init="findBookInCart()">
+<!-- 导航条 -->
+<nav class="navbar">
+    <div class="nav-menu">
+        <ul class="menu">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="goodBookList.html">书籍良品</a></li>
+            <li><a href="askBookList.html">求书区</a></li>
+            <li><a href="#">服务区</a></li>
+        </ul>
+    </div><!-- nav-menu -->
+
+    <form class="nav-search">
+        <input type="search" class="searchIn" placeholder="搜图书...">
+        <button class="search-logo"><img src="../img/search2.png"></button>
+    </form>
+
+    <div class="nav-info">
+        <a href="cart.html" class="bookshelf">&nbsp;购物车</a>
+        <a href="order-send.html" class="bookshelf">&nbsp;我的订单</a>
+        <a href="myBookshelf.html" class="bookshelf">&nbsp;我的书架</a>
+        <a href="#" class="username">&nbsp;|&nbsp;{{username}}</a>
+        <a href="javascript:void(0)" class="logout" ng-click="logout()">[ 退 出 ]</a>
+    </div> <!-- nav-info-end -->
+</nav>
+<div class="container">
+    <div class="allgoods">
+        <h1 style="text-align: center">购物车</h1><br>
+        <div class="cart-main">
+            <div class="yui3-g cart-th">
+                <div class="yui3-u-1-4">商品信息</div>
+                <div class="yui3-u-1-8" style="margin-left: 30%">品相</div>
+                <div class="yui3-u-1-8">单价（元）</div>
+                <div class="yui3-u-1-8">操作</div>
+            </div>
+            <div class="cart-item-list" ng-repeat="cart in entityList">
+                <div class="cart-shop">
+                    <input type="checkbox" style="height: 13px;width: 13px" ng-model="cart.status"
+                           ng-click="updateSelect($event,cart.user.id)"/>
+                    <span class="shopname self">商家：{{cart.user.name}}</span>
+                </div>
+                <div class="cart-body">
+                    <div class="cart-list" ng-repeat="item in cart.cartVoList">
+                        <ul class="goods-list yui3-g">
+                            <li class="yui3-u-1-24">
+                                <input type="checkbox" style="height: 13px;width: 13px" ng-model="item.status"
+                                       ng-click="updateSelection($event,item.cart.id)"/>
+                            </li>
+                            <li class="yui3-u-11-24">
+                                <div class="good-item">
+                                    <div class="item-img"><img ng-src="{{item.bookVo.image}}"
+                                                               style="width: 100px;height: 100px"/></div>
+                                    <div class="item-msg">书籍名称：{{item.bookVo.name}}</div>
+                                    <br>
+                                    <div class="item-msg">作者：{{item.bookVo.author}}</div>
+                                    <br>
+                                    <div class="item-msg">出版社：{{item.bookVo.press}}</div>
+                                </div>
+                            </li>
+                            <li class="yui3-u-1-8"><span class="price" style="color: black;margin-left: 30%">{{item.bookVo.degree}}成新</span>
+                            </li>
+                            <li class="yui3-u-1-8"><span class="price" style="color: black;margin-left: 50%">{{item.bookVo.price}}</span>
+                            </li>
+                            <li class="yui3-u-1-8">
+                                <button type="button" class="layui-btn layui-btn-sm layui-btn-normal"
+                                        ng-click="delete(item.cart.id)" style="color: black;margin-left: 30%"><i
+                                        class="layui-icon"></i> 删除
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="cart-tool" ng-if="entityList.length>0">
+                <div class="select-all">
+                    <input type="checkbox" style="height: 13px;width: 13px" ng-click="selectAll($event)"
+                           ng-model="allSelect"/>
+                    <span>全选</span>
+                </div>
+                <div class="toolbar">
+                    <div class="chosed">已选择<span style="color: red">{{total}}</span>件商品</div>
+                    <div class="sumprice">
+                        <span><em>总价：</em><i class="summoney">¥{{totalPrice.toFixed(2)}}</i></span>
+                    </div>
+                    <div class="sumbtn" >
+                        <a class="sum-btn" ng-click="toPay()" style="text-decoration: none" href="javascript:void (0)">结算</a>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<div class="clearfix footer">
+    <div class="py-container">
+        <div class="footlink">
+            <div class="Mod-service" style="text-align: center">
+                <p>©2016-2020 校园二手书交易</p>
+                <p>意见反馈&nbsp;&nbsp;&nbsp;联系我们&nbsp;&nbsp;&nbsp;隐私权声明&nbsp;&nbsp;&nbsp;使用条款</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

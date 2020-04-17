@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>上传求书至书摊</title>
+	<link rel="stylesheet" type="text/css" href="../css/reset.css">
+	<link rel="stylesheet" type="text/css" href="../css/upload.css">
+	<link href="http://cn-zz-bgp.sakurafrp.com:10341/group1/logo/logo.jpg" rel="icon" type="image/x-icon" />
+	<link href="http://cn-zz-bgp.sakurafrp.com:10341/group1/logo/logo.jpg" rel="shortcut icon" type="image/x-icon" />
+	<script src="../js/jquery-3.2.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" type="text/css" href="../plugin/layui/css/layui.css">
+	<script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+	<script src="../plugin/angular.min.js"></script>
+	<script src="../js/base_nopagination.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../plugin/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/controller/baseController.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/service/bookService.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/service/userService.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/service/uploadService.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/service/askBookService.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/controller/myBookshelfController.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body ng-app="bookshop" ng-controller="myBookshelfController">
+	<!-- 导航条 -->
+	<nav class="navbar">
+		<div class="nav-menu">
+			<ul class="menu">
+				<li><a class="active" href="index.html">首页</a></li>
+				<li><a href="goodBookList.html">书籍良品</a></li>
+				<li><a href="askBookList.html">求书区</a></li>
+				<li><a href="#">服务区</a></li>
+			</ul>				
+		</div><!-- nav-menu -->
+
+		<form class="nav-search">
+			<input type="search" class="searchIn" placeholder="搜图书...">
+			<button class="search-logo"><img src="../img/search2.png"></button>
+		</form>
+
+		<div class="nav-info">
+			<a href="cart.html" class="bookshelf">&nbsp;购物车</a>
+			<a href="order-send.html" class="bookshelf">&nbsp;我的订单</a>
+			<a href="myBookshelf.html" class="bookshelf">&nbsp;我的书架</a>
+			<a href="#" class="username">&nbsp;|&nbsp;{{username}}</a>
+			<a href="javascript:void(0)" class="logout" ng-click="logout()">[ 退 出 ]</a>
+		</div> <!-- nav-info-end -->
+	</nav>
+	<div class="titleName">
+		<h3>上传求书信息</h3>
+		<p>设求书信息</p>
+	</div>
+
+	<div class="ask container">
+		<form class="upload-form">
+			<p>
+				<span class="pic-icon">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+				上传书图片：<input type="file" name="book-pic" id="file" onfocus="clearpicmsg()"><br>
+				<span id="picmsg" style="font-size: 13px;color: red;margin-left: 21%"></span>
+			</p>
+			<p>
+				<span class="name-icon">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+				书&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：<input type="text" name="book-name" ng-model="entity.name" onfocus="clearnamemsg()"><br>
+				<span id="namemsg" style="font-size: 13px;color: red;margin-left: 21%"></span>
+			</p>
+			<p>
+				<span class="author-icon">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+				作&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;者：<input type="text" name="book-author" ng-model="entity.author" onfocus="clearauthormsg()"><br>
+				<span id="authormsg" style="font-size: 13px;color: red;margin-left: 21%"></span>
+			</p>
+			<p>
+				<span class="press-icon">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+				出&nbsp;&nbsp;&nbsp;&nbsp;版&nbsp;&nbsp;&nbsp;社：<input type="text" name="book-press" ng-model="entity.press" onfocus="clearpressmsg()"><br>
+				<span id="pressmsg" style="font-size: 13px;color: red;margin-left: 21%"></span>
+			</p>
+			<p>
+				<span class="desc-icon">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+				书&nbsp;本&nbsp;&nbsp;描&nbsp;述：<input type="text" name="book-desc" ng-model="entity.description" onfocus="clearbookdescriptionmsg()"><br>
+				<span id="bookdescriptionmsg" style="font-size: 13px;color: red;margin-left: 21%"></span>
+			</p>
+			<input type="button" class="submit-btn" name="book-submit" value="提交" ng-click="uploadAskBook()">
+		</form>
+	</div>
+	<footer>
+		<a href="#">©2016-2020 二手书交易</a>
+		<a href="#">意见反馈&nbsp;&nbsp;&nbsp;联系我们&nbsp;&nbsp;&nbsp;隐私权声明&nbsp;&nbsp;&nbsp;使用条款</a>
+	</footer>	
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>未付款订单</title>
+    <link rel="stylesheet" type="text/css" href="../css/reset.css">
+    <link rel="stylesheet" type="text/css" href="../css/webbase.css">
+    <link rel="stylesheet" type="text/css" href="../css/order.css">
+    <link rel="stylesheet" type="text/css" href="../plugin/layui/css/layui.css">
+    <link href="http://cn-zz-bgp.sakurafrp.com:10341/group1/logo/logo.jpg" rel="icon" type="image/x-icon" />
+    <link href="http://cn-zz-bgp.sakurafrp.com:10341/group1/logo/logo.jpg" rel="shortcut icon" type="image/x-icon" />    <script src="../js/jquery-3.2.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../plugin/qrious.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+    <script src="https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js"></script>
+    <script src="../js/base_nopagination.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../plugin/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/controller/baseController.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/service/orderService.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/controller/orderController.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body ng-app="bookshop" ng-controller="orderController" ng-init="findOrderPay()">
+<nav class="navbar">
+    <div class="nav-menu">
+        <ul class="menu">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="goodBookList.html">书籍良品</a></li>
+            <li><a href="askBookList.html">求书区</a></li>
+            <li><a href="#">服务区</a></li>
+        </ul>
+    </div><!-- nav-menu -->
+
+    <form class="nav-search">
+        <input type="search" class="searchIn" placeholder="搜图书...">
+        <button class="search-logo"><img src="../img/search2.png"></button>
+    </form>
+
+    <div class="nav-info">
+        <a href="cart.html" class="bookshelf">&nbsp;购物车</a>
+        <a href="order-send.html" class="bookshelf">&nbsp;我的订单</a>
+        <a href="myBookshelf.html" class="bookshelf">&nbsp;我的书架</a>
+        <a href="#" class="username">&nbsp;|&nbsp;{{username}}</a>
+        <a href="#" class="logout">[ 退 出 ]</a>
+    </div> <!-- nav-info-end -->
+</nav>
+
+<!--header-->
+<div id="account">
+    <div class="py-container">
+        <div class="yui3-g home">
+            <!--左侧列表-->
+            <div class="yui3-u-1-6 list">
+                <div class="person-info">
+                    <div class="person-photo"><img src="../img/head.png" style="width: 48px;height: 48px"></div>
+                    <div class="person-account">
+                        <span class="name">用户名：{{username}}</span>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="list-items">
+                    <dl>
+                        <dt><i>·</i> 订单中心</dt>
+                        <dd><a href="order-send.html">待收货</a></dd>
+                        <dd><a href="order-pay.html" class="list-active">待付款</a></dd>
+                        <dd><a href="order-sell.html">已卖出</a></dd>
+                        <dd><a href="order-success.html">已完成</a></dd>
+                    </dl>
+                </div>
+            </div>
+            <!--右侧主内容-->
+            <div class="yui3-u-5-6 order-pay">
+                <div class="body">
+                    <div class="table-title">
+                        <table class="sui-table  order-table">
+                            <tr>
+                                <thead>
+                                <th width="35%">书籍信息</th>
+                                <th width="5%">单价</th>
+                                <th width="10%">交易状态</th>
+                                <th width="10%">交易操作</th>
+                                </thead>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="order-detail">
+                        <div class="orders" ng-repeat="entity in entityList">
+                            <!--order1-->
+                            <div class="choose-title">
+                                <label>
+                                    <span>{{entity.orders.date}}　订单编号：{{entity.orders.orderId}}  卖家：{{entity.seller.name}}</span>
+                                </label>
+                            </div>
+                            <table class="sui-table table-bordered order-datatable">
+                                <tbody>
+                                <tr ng-repeat="bookVo in entity.bookVoList">
+                                    <td width="35%">
+                                        <div class="typographic"><img ng-src="{{bookVo.image}}"
+                                                                      style="height: 80px;width: 60px"/>
+                                            <a href="#" class="block-text">{{bookVo.name}}</a>
+                                            <span class="guige" style="margin-left: 25%">
+                                                作者：{{bookVo.author}}<br>
+                                                出版社：{{bookVo.press}}<br>
+                                                品相：{{bookVo.degree}}成新
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td width="5%" class="center">
+                                        <ul class="unstyled">
+                                            <li>¥{{bookVo.price}}</li>
+                                        </ul>
+                                    </td>
+                                    <td width="10%" class="center" ng-if="$index === 0"
+                                        rowspan={{entity.bookVoList.length}}>
+                                        <ul class="unstyled">
+                                            <li>等待付款</li>
+                                        </ul>
+                                    </td>
+                                    <td width="10%" class="center" ng-if="$index === 0"
+                                        rowspan={{entity.bookVoList.length}}>
+                                        <ul class="unstyled">
+                                            <li>
+                                                <a href="javascript:void(0)" class="sui-btn btn-info" ng-click="payAgain(entity.orders.orderId)">去付款</a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0)" ng-click="cancelOrder(entity.orders.orderId)">取消订单</a>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="choose-order">
+                            <div class="sui-pagination pagination-large top-pages" id="page">
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix footer">
+    <div class="py-container">
+        <div class="footlink">
+            <div class="Mod-service" style="text-align: center">
+                <p>©2016-2020 校园二手书交易</p>
+                <p>意见反馈&nbsp;&nbsp;&nbsp;联系我们&nbsp;&nbsp;&nbsp;隐私权声明&nbsp;&nbsp;&nbsp;使用条款</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
