@@ -46,9 +46,6 @@ public class Askbook implements Serializable {
     @TableField("user_id")
     private Integer userId;
 
-    @TableField("back")
-    private String back;
-
     @TableField(value = "time",fill = FieldFill.INSERT)
     private LocalDateTime time;
 

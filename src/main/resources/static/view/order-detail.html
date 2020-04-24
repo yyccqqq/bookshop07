@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>订单详情</title>
+    <link rel="stylesheet" type="text/css" href="../css/reset-order.css">
+    <link rel="stylesheet" type="text/css" href="../css/webbase.css">
+    <link rel="stylesheet" type="text/css" href="../css/order-detail.css">
+    <link rel="stylesheet" type="text/css" href="../css/upload.css">
+    <link rel="stylesheet" type="text/css" href="../plugin/layui/css/layui.css">
+    <link href="http://cn-zz-bgp.sakurafrp.com:10341/group1/logo/logo.jpg" rel="icon" type="image/x-icon"/>
+    <link href="http://cn-zz-bgp.sakurafrp.com:10341/group1/logo/logo.jpg" rel="shortcut icon" type="image/x-icon"/>
+    <script src="../js/jquery-3.2.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../plugin/qrious.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+    <script src="https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js"></script>
+    <script src="../js/base_nopagination.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../plugin/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/controller/baseController.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/service/orderService.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/controller/orderController.js" type="text/javascript" charset="utf-8"></script>
+    <style>
+        a:hover {
+            text-decoration: none;
+            color: red;
+        }
+    </style>
+</head>
+<body ng-app="bookshop" ng-controller="orderController" ng-init="getOrderDetail()">
+<nav class="navbar">
+    <div class="nav-menu">
+        <ul class="menu">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="goodBookList.html">书籍良品</a></li>
+            <li><a href="askBookList.html">求书区</a></li>
+            <li><a href="#">服务区</a></li>
+        </ul>
+    </div><!-- nav-menu -->
+
+    <form class="nav-search">
+        <input type="search" class="searchIn" placeholder="搜图书...">
+        <button class="search-logo"><img src="../img/search2.png"></button>
+    </form>
+
+    <div class="nav-info">
+        <a href="cart.html" class="bookshelf">&nbsp;购物车</a>
+        <a href="order-send.html" class="bookshelf">&nbsp;我的订单</a>
+        <a href="myBookshelf.html" class="bookshelf">&nbsp;我的书架</a>
+        <a href="#" class="username">&nbsp;|&nbsp;{{username}}</a>
+        <a href="#" class="logout">[ 退 出 ]</a>
+    </div> <!-- nav-info-end -->
+</nav>
+
+<!--header-->
+<div id="account">
+    <div class="py-container">
+        <div class="yui3-g home">
+            <!--左侧列表-->
+            <div class="yui3-u-1-6 list">
+                <div class="person-info">
+                    <div class="person-photo"><img src="../img/head.png" style="width: 48px;height: 48px"></div>
+                    <div class="person-account">
+                        <span class="name">用户名：{{username}}</span>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="list-items">
+                    <dl>
+                        <dt><i>·</i> 订单中心</dt>
+                        <dd><a href="order-send.html">待收货</a></dd>
+                        <dd><a href="order-pay.html">待付款</a></dd>
+                        <dd><a href="order-sell.html">已卖出</a></dd>
+                        <dd><a href="order-success.html">已完成</a></dd>
+                    </dl>
+                </div>
+            </div>
+            <!--右侧主内容-->
+            <div class="yui3-u-5-6">
+                <div class="body">
+                    <div class="order-detail">
+                        <h4>订单详情</h4>
+                        <div class="order-bar">
+                            <div class="sui-steps-round steps-round-auto steps-4">
+                                <div class="finished">
+                                    <div class="wrap">
+                                        <div class="round">1</div>
+                                        <div class="bar"></div>
+                                    </div>
+                                    <label>
+                                        <span>提交订单</span>
+                                    </label>
+                                </div>
+                                <div class="{{order.type < 1 ? 'todo':(order.type == 1 ? 'current':'finished')}}">
+                                    <div class="wrap">
+                                        <div class="round">2</div>
+                                        <div class="bar"></div>
+                                    </div>
+                                    <label>
+                                        <span>付款成功</span>
+                                    </label>
+                                </div>
+                                <div class="{{order.type < 2 ? 'todo':(order.type == 2 ? 'current':'finished')}}">
+                                    <div class="wrap">
+                                        <div class="round">3</div>
+                                        <div class="bar"></div>
+                                    </div>
+                                    <label>
+                                        <span>发货</span>
+                                    </label>
+                                </div>
+                                <div class="{{order.type < 3 ? 'todo last': 'current'}}">
+                                    <div class="wrap">
+                                        <div class="round">4</div>
+                                    </div>
+                                    <label>
+                                        <span>交易完成</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="order-state">
+                            <p>当前订单状态：
+                                <span class="red">
+                                    <span ng-if="order.type == 0">待付款</span>
+                                    <span ng-if="order.type == 1">待发货</span>
+                                    <span ng-if="order.type == 2">已发货</span>
+                                    <span ng-if="order.type == 3">交易完成</span>
+                                    <span ng-if="order.type == 4">交易取消</span>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="order-info">
+                        <h5>订单信息</h5>
+                        <p>卖家：{{seller.name}} </p>
+                        <p>卖家地址：{{seller.address}}</p>
+                        <p>卖家联系方式：{{seller.tel}}</p>
+                        <p>买家：{{buyer.name}} </p>
+                        <p>买家地址：{{buyer.address}}</p>
+                        <p>买家联系方式：{{buyer.tel}}</p>
+                        <p>交易时间：{{orderId}}</p>
+                    </div>
+                    <div class="order-goods">
+                        <table class="sui-table">
+                            <thead>
+                            <th class="center">商品</th>
+                            <th class="center">价格</th>
+                            <th class="center">状态</th>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td colspan="5">订单编号：{{order.orderId}}</td>
+                            </tr>
+                            <tr ng-repeat="entity in  entityList">
+                                <td>
+                                    <div class="typographic"><a href="book/{{entity.id}}.html"><img
+                                            ng-src="{{entity.image}}"
+                                            style="width: 100px;height: 100px"/></a>
+                                        <span>{{entity.name}}</span>
+                                        <span class="guige">作者：{{entity.author}}</span>
+                                        <span class="guige">出版社：{{entity.press}}</span>
+                                    </div>
+                                </td>
+                                <td style="padding-left: 18%">
+                                    <ul class="unstyled">
+                                        <li>¥{{entity.price.toFixed(2)}}</li>
+                                    </ul>
+                                </td>
+                                <td style="padding-left: 10%" ng-if="$index === 0" rowspan={{entityList.length}}>
+                                    <span ng-if="order.type < 3">
+                                        <a href="javascript:void(0)" ng-click="cancelOrder(order.orderId)">取消交易</a>
+                                    </span>
+                                    <sapn ng-if="order.type >= 3">
+                                        交易成功
+                                    </sapn>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="order-price">
+                            <p>订单金额：￥{{(order.totalPrice-10).toFixed(2)}}</p>
+                            <p>运费金额：￥10.00</p>
+                            <h4 class="red">实际支付：￥{{order.totalPrice.toFixed(2)}}</h4>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix footer">
+    <div class="py-container">
+        <div class="footlink">
+            <div class="Mod-service" style="text-align: center">
+                <p>©2016-2020 校园二手书交易</p>
+                <p>意见反馈&nbsp;&nbsp;&nbsp;联系我们&nbsp;&nbsp;&nbsp;隐私权声明&nbsp;&nbsp;&nbsp;使用条款</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

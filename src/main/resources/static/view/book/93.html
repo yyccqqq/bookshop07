@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>书籍详情</title>
+    <link rel="stylesheet" type="text/css" href="../../css/reset.css">
+    <link rel="stylesheet" type="text/css" href="../../css/bookDetail.css">
+    <link rel="stylesheet" type="text/css" href="../../plugin/layui/css/layui.css">
+    <link href="http://cn-zz-bgp.sakurafrp.com:10341/group1/logo/logo.jpg" rel="icon" type="image/x-icon"/>
+    <link href="http://cn-zz-bgp.sakurafrp.com:10341/group1/logo/logo.jpg" rel="shortcut icon" type="image/x-icon"/>
+    <script src="../../js/jquery-3.2.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+    <script src="https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js"></script>
+    <script src="../../js/base_nopagination.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../plugin/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/controller/baseController.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/service/cartService.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/controller/cartController.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body ng-app="bookshop" ng-controller="cartController">
+<nav class="navbar">
+    <div class="nav-menu">
+        <ul class="menu">
+            <li><a href="../index.html">首页</a></li>
+            <li><a href="../goodBookList.html">书籍良品</a></li>
+            <li><a href="../askBookList.html">求书区</a></li>
+            <li><a href="#">服务区</a></li>
+        </ul>
+    </div><!-- nav-menu -->
+
+    <form class="nav-search">
+        <input type="search" class="searchIn" ng-model="keyword" placeholder="关键字..." id="tip">
+        <button class="search-logo"><img src="../../img/search2.png" ng-click="doSearch()"></button>
+    </form>
+
+    <div class="nav-info">
+        <a href="../cart.html" class="bookshelf">&nbsp;购物车</a>
+        <a href="../order-send.html" class="bookshelf">&nbsp;我的订单</a>
+        <a href="../myBookshelf.html" class="bookshelf">&nbsp;我的书架</a>
+        <a href="javascript:void (0)" class="username">&nbsp;|&nbsp;{{username}}</a>
+        <a ref="javascript:void(0)" class="logout" ng-click="logout()">[ 退 出 ]</a>
+    </div> <!-- nav-info-end -->
+</nav>
+
+<div class="container">
+    <div id="book-pic">
+        <div class="book-big">
+            <img src="http://cn-zz-bgp.sakurafrp.com:10341/group1/image/19.jpg">
+        </div>
+        <span class="tip"></span>
+    </div> <!-- book-pic-end -->
+
+    <div id="book-info">
+        <span class="book-name">乖，摸摸头</span>
+        <span class="book-publish">大冰 著 / 百花文艺出版社 / 2020-01 / 精装版</span>
+        <span class="book-price">
+				<p>售价 <a class="final-price">￥20.0</a></p>
+				<p>定价 <a class="orignal-price">￥56.8 </a></p>
+				<p>品相 <a class="condition">9.0成新</a></p>
+			</span>
+        <span class="book-descr">
+				<p>商品描述<a class="book-desc">大冰诚意之作</a></p>
+				<p>上书时间<a class="upload-time">2020-04-13</a></p>
+			</span>
+        <span class="buy-now" ng-click="addCart(93)">加入购物车</span>
+    </div> <!-- book-info-end -->
+
+    <div id="seller-info">
+        <a class="seller-name">li</a>
+        <span class="seller-span2">
+				<p>电话<a class="seller-num">17633753229</a></p>
+				<p>宿舍<a class="seller-adr">河南省信阳市</a></p>
+				<p>好评率<a class="seller-appraise">90.5%</a></p>
+			</span>
+        <span class="seller-span3">
+				<a href="../userAllBookList.html#?userId=1">[ 去看看卖家的二手书 ]</a>
+			</span>
+    </div><!-- seller-info-end -->
+    <div id="book-content">
+        <span class="book-tip">大冰诚意之作</span>
+    </div>
+</div><!--  container -->
+<footer>
+    <a href="#">©2016-2020 二手书交易</a>
+    <a href="#">意见反馈&nbsp;&nbsp;&nbsp;联系我们&nbsp;&nbsp;&nbsp;隐私权声明&nbsp;&nbsp;&nbsp;使用条款</a>
+</footer>
+</body>
+</html>

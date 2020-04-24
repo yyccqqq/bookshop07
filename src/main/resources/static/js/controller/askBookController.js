@@ -8,7 +8,7 @@ app.controller('askBookController', function ($scope, $interval, $controller, $l
 
     $scope.username = Cookies.get('username');
 
-    $scope.finAskBook = function (pageNum) {
+    $scope.findAskBook = function (pageNum) {
         if (typeof pageNum != "undefined") {
             $scope.pageNum = pageNum;
         }

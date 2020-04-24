@@ -25,4 +25,19 @@ public class DirectRabbitMQConfig {
         return BindingBuilder.bind(CodeDirectQueue()).to(CodeDirectExchange()).with("CodeDirectRouting");
     }
 
+    @Bean
+    public Queue AskBookQueue(){
+        return new Queue("AskBookQueue",true);
+    }
+
+    @Bean
+    public DirectExchange AskBookDirectExchange(){
+        return new DirectExchange("AskBookDirectExchange");
+    }
+
+    @Bean
+    public Binding BindingAskBookDirectExchange(){
+        return BindingBuilder.bind(AskBookQueue()).to(AskBookDirectExchange()).with("AskBookDirectRouting");
+    }
+
 }

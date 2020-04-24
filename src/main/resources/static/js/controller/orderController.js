@@ -254,4 +254,16 @@ app.controller('orderController', function ($scope, $controller, $location, $int
             }
         )
     }
+
+    $scope.getOrderDetail = function () {
+        $scope.orderId = $location.search()['id'];
+        orderService.getOrderDetail($scope.orderId).success(
+            function (response) {
+                $scope.entityList = response.bookVoList;
+                $scope.buyer = response.buyer;
+                $scope.seller = response.seller;
+                $scope.order = response.order;
+            }
+        )
+    }
 });

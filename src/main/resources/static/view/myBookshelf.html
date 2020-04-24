@@ -113,7 +113,8 @@
                     <p>商品状态：
                         <span class="book-desc" ng-if="entity.bookType == 0">未上架</span>
                         <span class="book-desc" ng-if="entity.bookType == 1">售卖中</span>
-                        <span class="book-desc" ng-if="entity.bookType == 2">已出售</span>
+                        <span class="book-desc" ng-if="entity.bookType == 2">审核未通过</span>
+                        <span class="book-desc" ng-if="entity.bookType == 3">已出售</span>
                     </p>
                 </div>
             </li>

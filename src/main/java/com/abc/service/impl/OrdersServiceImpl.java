@@ -90,7 +90,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
 
         Map<String, Object> map = new HashMap<>();
         map.put("ids", ids);
-        map.put("type", 2);
+        map.put("type", 3);
         rabbitTemplate.convertAndSend("removeExchange", "topic.update", map);
 
         List<String> orderIdList = new ArrayList<>();
@@ -182,7 +182,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
         User user = (User) SecurityUtils.getSubject().getPrincipal();
         String payLogStr = (String) redisTemplate.boundHashOps("payLog").get(user.getId().toString());
         PayLog payLog = JSONUtil.toBean(payLogStr, PayLog.class);
-        if(StrUtil.isNotEmpty(payLogStr)){
+        if (StrUtil.isNotEmpty(payLogStr)) {
             for (String orderId : payLog.getOrderList()) {
                 LambdaUpdateWrapper<Orders> wrapper = new LambdaUpdateWrapper<>();
                 wrapper.eq(Orders::getOrderId, orderId).set(Orders::getType, 1);
@@ -203,7 +203,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
         User user = (User) SecurityUtils.getSubject().getPrincipal();
         LambdaQueryWrapper<Orders> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Orders::getBuyerId, user.getId()).eq(Orders::getType, 1).or().eq(Orders::getType, 2);
-        PageInfo<OrdersVo> ordersVoPageInfo = getOrdersVoPageInfo(pageNum, user, wrapper);
+        PageInfo<OrdersVo> ordersVoPageInfo = getOrdersVoPageInfo(pageNum, wrapper);
         return ordersVoPageInfo;
     }
 
@@ -219,7 +219,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
         User user = (User) SecurityUtils.getSubject().getPrincipal();
         LambdaQueryWrapper<Orders> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Orders::getBuyerId, user.getId()).eq(Orders::getType, 0);
-        PageInfo<OrdersVo> ordersVoPageInfo = getOrdersVoPageInfo(pageNum, user, wrapper);
+        PageInfo<OrdersVo> ordersVoPageInfo = getOrdersVoPageInfo(pageNum, wrapper);
         return ordersVoPageInfo;
     }
 
@@ -228,7 +228,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
         User user = (User) SecurityUtils.getSubject().getPrincipal();
         LambdaQueryWrapper<Orders> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Orders::getSellerId, user.getId());
-        PageInfo<OrdersVo> ordersVoPageInfo = getOrdersVoPageInfo(pageNum, user, wrapper);
+        PageInfo<OrdersVo> ordersVoPageInfo = getOrdersVoPageInfo(pageNum, wrapper);
         return ordersVoPageInfo;
     }
 
@@ -237,7 +237,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
         User user = (User) SecurityUtils.getSubject().getPrincipal();
         LambdaQueryWrapper<Orders> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Orders::getBuyerId, user.getId()).eq(Orders::getType, 3).or().eq(Orders::getType, 4);
-        PageInfo<OrdersVo> ordersVoPageInfo = getOrdersVoPageInfo(pageNum, user, wrapper);
+        PageInfo<OrdersVo> ordersVoPageInfo = getOrdersVoPageInfo(pageNum, wrapper);
         return ordersVoPageInfo;
     }
 
@@ -272,7 +272,39 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
         redisTemplate.boundHashOps("payLog").put(user.getId().toString(), payLogStr);
     }
 
-    private PageInfo<OrdersVo> getOrdersVoPageInfo(Integer pageNum, User user, LambdaQueryWrapper<Orders> wrapper) {
+    @Override
+    public Map<String, Object> getOrderDetail(String orderId) {
+        Map<String, Object> map = new HashMap<>();
+        Orders order = ordersMapper.selectById(orderId);
+        User buyer = userMapper.selectById(order.getBuyerId());
+        map.put("buyer", buyer);
+        User seller = userMapper.selectById(order.getSellerId());
+        map.put("seller", seller);
+        LambdaQueryWrapper<OrderInfo> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(OrderInfo::getOrderId, orderId);
+        List<OrderInfo> orderInfoList = orderInfoMapper.selectList(wrapper);
+        List<BookVo> bookVoList = new ArrayList<>();
+        for (OrderInfo orderInfo : orderInfoList) {
+            BookVo bookVo = getBookVo(orderInfo);
+            bookVoList.add(bookVo);
+        }
+        map.put("bookVoList",bookVoList);
+        map.put("order",order);
+        return map;
+    }
+
+    private BookVo getBookVo(OrderInfo orderInfo) {
+        Book book = bookMapper.selectById(orderInfo.getBookId());
+        String booStr = JSONUtil.toJsonStr(book);
+        BookVo bookVo = JSONUtil.toBean(booStr, BookVo.class);
+        LambdaQueryWrapper<Bookimage> wrapper2 = new LambdaQueryWrapper<>();
+        wrapper2.eq(Bookimage::getBookId, orderInfo.getBookId());
+        Bookimage bookimage = bookimageMapper.selectOne(wrapper2);
+        bookVo.setImage(bookimage.getImage());
+        return bookVo;
+    }
+
+    private PageInfo<OrdersVo> getOrdersVoPageInfo(Integer pageNum, LambdaQueryWrapper<Orders> wrapper) {
         PageHelper.startPage(pageNum, 4);
         List<Orders> ordersList = ordersMapper.selectList(wrapper);
         PageInfo<Orders> pageInfo = new PageInfo<>(ordersList);
@@ -283,17 +315,12 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
             List<OrderInfo> orderInfos = orderInfoMapper.selectList(queryWrapper);
             List<BookVo> bookVoList = new ArrayList<>();
             for (OrderInfo orderInfo : orderInfos) {
-                Book book = bookMapper.selectById(orderInfo.getBookId());
-                LambdaQueryWrapper<Bookimage> wrapper2 = new LambdaQueryWrapper<>();
-                wrapper2.eq(Bookimage::getBookId, book.getId());
-                Bookimage bookimage = bookimageMapper.selectOne(wrapper2);
-                String bookStr = JSONUtil.toJsonStr(book);
-                BookVo bookVo = JSONUtil.toBean(bookStr, BookVo.class);
-                bookVo.setImage(bookimage.getImage());
+                BookVo bookVo = getBookVo(orderInfo);
                 bookVoList.add(bookVo);
             }
             User seller = userMapper.selectById(orders.getSellerId());
-            OrdersVo ordersVo = new OrdersVo(orders, user, seller, bookVoList);
+            User buyer = userMapper.selectById(orders.getBuyerId());
+            OrdersVo ordersVo = new OrdersVo(orders, buyer, seller, bookVoList);
             ordersVoList.add(ordersVo);
         }
         PageInfo<OrdersVo> ordersVoPageInfo = new PageInfo<>();

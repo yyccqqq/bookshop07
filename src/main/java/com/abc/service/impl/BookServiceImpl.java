@@ -278,6 +278,9 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
     public void updateSellBook(BookVo bookVo) {
         Book book = getBook(bookVo);
         book.setId(bookVo.getId());
+        if(bookVo.getBookType() == 2){
+            book.setBookType(0);
+        }
         bookMapper.updateById(book);
 
         LambdaUpdateWrapper<Bookimage> wrapper = new LambdaUpdateWrapper<>();

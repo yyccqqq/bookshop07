@@ -135,5 +135,10 @@ public class OrdersController {
         }
     }
 
+    @GetMapping("/getOrderDetail/{orderId}")
+    public Map<String,Object> getOrderDetail(@PathVariable String orderId){
+        return ordersService.getOrderDetail(orderId);
+    }
+
 
 }

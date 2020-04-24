@@ -24,4 +24,6 @@ app.service('askBookService', function ($http) {
         return $http.get('../askbook/findAskBook/' + pageNum);
     }
 
+
+
 })

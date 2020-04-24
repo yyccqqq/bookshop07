@@ -40,4 +40,6 @@ public interface IOrdersService extends IService<Orders> {
     void cancelOrder(String orderId);
 
     void payAgain(String orderId);
+
+    Map<String, Object> getOrderDetail(String orderId);
 }

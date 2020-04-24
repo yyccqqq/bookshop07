@@ -43,4 +43,8 @@ app.service('orderService', function ($http) {
     this.payAgain = function (orderId) {
         return $http.get('../orders/payAgain/' + orderId);
     }
+
+    this.getOrderDetail = function (id) {
+        return $http.get('../orders/getOrderDetail/' + id);
+    }
 })

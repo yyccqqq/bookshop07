@@ -4,6 +4,7 @@ package com.abc.component.shiro;
 import com.abc.pojo.User;
 import com.abc.service.IUserService;
 import org.apache.shiro.authc.*;
+import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
@@ -12,6 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class MyReleam extends AuthorizingRealm {
     @Autowired
     private IUserService userService;
+
+    @Override
+    public void setCredentialsMatcher(CredentialsMatcher credentialsMatcher) {
+        CustomCredentialsMatcher customCredentialsMatcher = new CustomCredentialsMatcher();
+        super.setCredentialsMatcher(customCredentialsMatcher);
+    }
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
@@ -23,10 +30,12 @@ public class MyReleam extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         String username = (String) authenticationToken.getPrincipal();
         User user = userService.findUserByStudentId(username);
-        if(user == null){
+        if (user == null) {
             throw new UnknownAccountException("账号不存在");
-        }else{
+        } else {
             return new SimpleAuthenticationInfo(user, user.getPassword(), getName());
         }
     }
+
+
 }

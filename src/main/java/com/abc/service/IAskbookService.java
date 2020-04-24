@@ -26,4 +26,6 @@ public interface IAskbookService extends IService<Askbook> {
     void deleteAskBook(Integer[] ids);
 
     PageInfo<Askbook> findAskBook(Integer pageNum);
+
+    void createHtml(Integer bookId);
 }

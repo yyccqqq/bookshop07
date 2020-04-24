@@ -40,7 +40,7 @@ public class UserController {
     public Result login(@RequestBody User user) {
         Subject subject = SecurityUtils.getSubject();
         try {
-            subject.login(new UsernamePasswordToken(user.getStudentId(), SecureUtil.md5(user.getPassword())));
+            subject.login(new UsernamePasswordToken(user.getStudentId(), user.getPassword()));
             return new Result(true, "登录成功");
         } catch (AuthenticationException e) {
             e.printStackTrace();
