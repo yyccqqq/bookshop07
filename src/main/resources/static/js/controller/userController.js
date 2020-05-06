@@ -4,7 +4,7 @@ app.controller('userController', function ($scope, $interval, $controller, userS
 
         $scope.entity = {};
 
-        $scope.username = Cookies.get('username');
+        $scope.username = Cookies.get("username");
 
         $scope.login = function () {
             var studentId = $scope.entity.studentId;

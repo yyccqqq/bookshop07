@@ -2,8 +2,6 @@ server:
   servlet:
     context-path: /bookshop
   port: 8888
-  tomcat:
-    uri-encoding: utf-8
 
 spring:
   datasource:
