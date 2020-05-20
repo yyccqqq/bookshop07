@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>书籍详情</title>
+    <title>求书详情</title>
     <link rel="stylesheet" type="text/css" href="../../css/reset.css">
-    <link rel="stylesheet" type="text/css" href="../../css/bookDetail.css">
+    <link rel="stylesheet" type="text/css" href="../../css/askBookDetail.css">
     <link rel="stylesheet" type="text/css" href="../../plugin/layui/css/layui.css">
     <link href="http://bookshop.yancq.top:10342/group1/logo/logo.jpg" rel="icon" type="image/x-icon"/>
     <link href="http://bookshop.yancq.top:10342/group1/logo/logo.jpg" rel="shortcut icon" type="image/x-icon"/>
@@ -15,10 +15,11 @@
     <script src="../../js/base_nopagination.js" type="text/javascript" charset="utf-8"></script>
     <script src="../../plugin/layui/layui.js" type="text/javascript" charset="utf-8"></script>
     <script src="../../js/controller/baseController.js" type="text/javascript" charset="utf-8"></script>
-    <script src="../../js/service/cartService.js" type="text/javascript" charset="utf-8"></script>
-    <script src="../../js/controller/cartController.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/service/askBookService.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/controller/askBookController.js" type="text/javascript" charset="utf-8"></script>
+    <script src='../../plugin/Valine.min.js'></script>
 </head>
-<body ng-app="bookshop" ng-controller="cartController">
+<body ng-app="bookshop" ng-controller="askBookController">
 <nav class="navbar">
     <div class="nav-menu">
         <ul class="menu">
@@ -46,44 +47,41 @@
 <div class="container">
     <div id="book-pic">
         <div class="book-big">
-            <img src="http://bookshop.yancq.top:10340/bookshop/img/book-list/article/73.jpg">
+            <img src="http://bookshop.yancq.top:10342/group1/image/21.jpg">
         </div>
-        <span class="tip"></span>
     </div> <!-- book-pic-end -->
 
     <div id="book-info">
-        <span class="book-name">男人这东西</span>
-        <span class="book-publish">渡边淳一 著 / 作家出版社 / 2010-03 / 平装</span>
+        <span class="book-name">皮囊</span>
+        <span class="book-publish">烽火戏诸侯 著 / 人民文学出版社</span>
         <span class="book-price">
-				<p>售价 <a class="final-price">￥8.0</a></p>
-				<p>定价 <a class="orignal-price">￥28.0 </a></p>
-				<p>品相 <a class="condition">7.0成新</a></p>
-			</span>
-        <span class="book-descr">
-				<p>商品描述<a class="book-desc">渡边大神的书</a></p>
-				<p>上书时间<a class="upload-time">2018-04-12</a></p>
-			</span>
-        <span class="buy-now" ng-click="addCart(77)">加入购物车</span>
+				<p>商品描述<a class="book-desc">科幻大作，值得一看</a></p>
+				<p>上传时间<a class="upload-time">2020-05-20</a></p>
+        </span>
     </div> <!-- book-info-end -->
 
     <div id="seller-info">
-        <a class="seller-name">zhao</a>
+        <a class="seller-name">wang</a>
         <span class="seller-span2">
-				<p>电话<a class="seller-num">15812345678</a></p>
-				<p>宿舍<a class="seller-adr">河南省郑州市</a></p>
+				<p>电话<a class="seller-num">li</a></p>
+				<p>住址<a class="seller-adr">河南省信阳市</a></p>
 				<p>好评率<a class="seller-appraise">90.5%</a></p>
 			</span>
-        <span class="seller-span3">
-				<a href="../userAllBookList.html#?userId=3">[ 去看看卖家的二手书 ]</a>
-			</span>
     </div><!-- seller-info-end -->
-    <div id="book-content">
-        <span class="book-tip">渡边大神的书</span>
-    </div>
+
+    <div id="vcomments" style="width: 80%"></div>
 </div><!--  container -->
-<footer style="position: absolute;bottom: 0;width: 100%">
+<footer>
     <a href="#">©2016-2020 二手书交易</a>
     <a href="#">意见反馈&nbsp;&nbsp;&nbsp;联系我们&nbsp;&nbsp;&nbsp;隐私权声明&nbsp;&nbsp;&nbsp;使用条款</a>
 </footer>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'GYpmeOeddxKgmIlKJ0D0bCFr-gzGzoHsz',
+        appKey: 'SxvSiWTbncaO3KKKN7jUncrq',
+        avatar: 'wavatar'
+    })
+</script>
 </body>
 </html>

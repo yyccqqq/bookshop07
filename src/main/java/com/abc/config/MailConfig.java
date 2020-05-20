@@ -15,7 +15,7 @@ public class MailConfig {
         account.setPort(25);
         account.setFrom("yanchuanqi234@163.com");
         account.setUser("yanchuanqi234@163.com");
-        account.setPass("NLTYJLYNRDSTWUNQ");
+        account.setPass("XBNGCDFFFZGHJCJK");
         return account;
     }
 }
