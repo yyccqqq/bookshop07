@@ -128,7 +128,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Override
     public Result updatePassword(Map map) {
-        String checkCode = (String) redisTemplate.boundHashOps("code").get(map.get("email"));
+        String checkCode = (String) redisTemplate.opsForValue().get(map.get("email"));
         if (map.get("code").equals(checkCode)) {
             LambdaUpdateWrapper<User> wrapper = new LambdaUpdateWrapper<>();
             String password = (String) map.get("password");

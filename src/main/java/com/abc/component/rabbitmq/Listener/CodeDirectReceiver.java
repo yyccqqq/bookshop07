@@ -9,8 +9,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 @Component
 @RabbitListener(queues = "CodeDirectQueue")
@@ -25,14 +24,7 @@ public class CodeDirectReceiver {
     public void proess(Map message) {
         String code = RandomUtil.randomNumbers(6);
         String email = (String) message.get("email");
-        redisTemplate.boundHashOps("code").put(email, code);
+        redisTemplate.opsForValue().set(email, code,5L,TimeUnit.MINUTES);
         userService.sendCode(email,code);
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                redisTemplate.boundHashOps("code").delete(email);
-            }
-        }, 5 * 60 * 1000);
     }
 }
