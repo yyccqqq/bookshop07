@@ -11,7 +11,7 @@ spring:
     password: 123456
     type: com.alibaba.druid.pool.DruidDataSource
   redis:
-    host: 192.168.124.13
+    host: 192.168.124.10
     password: 123456
     jedis:
       pool:
@@ -19,12 +19,13 @@ spring:
         max-idle: 10
         min-idle: 10
   rabbitmq:
-    host: 192.168.124.13
+    host: 192.168.124.10
+    port: 5672
     username: yan
     password: 123456
   elasticsearch:
     rest:
-      uris: 192.168.124.13:9200
+      uris: 192.168.124.10:9200
       connection-timeout: 100000
       read-timeout: 50000
 
