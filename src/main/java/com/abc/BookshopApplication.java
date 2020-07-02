@@ -12,7 +12,4 @@ public class BookshopApplication {
         System.setProperty("es.set.netty.runtime.available.processors", "false");
         SpringApplication.run(BookshopApplication.class, args);
     }
-
-
-
 }
