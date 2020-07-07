@@ -1,6 +1,7 @@
 package com.abc.service.impl;
 
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.IdUtil;
@@ -120,6 +121,12 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
         PayLog payLog = new PayLog(Convert.toStr(snowflake.nextId()), totlaPrice, orderIdList);
         String payLogStr = JSONUtil.toJsonStr(payLog);
         redisTemplate.boundHashOps("payLog").put(user.getId().toString(), payLogStr);
+        Map<String, Object> map2 = new HashMap<>();
+        map2.put("orderIdList",orderIdList);
+        rabbitTemplate.convertAndSend("OrderDelayExchange", "OrderDelay", map2, message -> {
+            message.getMessageProperties().setExpiration(1000 * 60 *15 + "");
+            return message;
+        });
     }
 
     @Override
@@ -134,21 +141,20 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
             if (!StrUtil.hasEmpty(payLogStr)) {
                 PayLog payLog = JSONUtil.toBean(payLogStr, PayLog.class);
                 Map map = new HashMap();
-                //创建API对应的request类
+                // 创建API对应的request类
                 AlipayTradePrecreateRequest request = new AlipayTradePrecreateRequest();
-                request.setBizContent("{" +
-                        "    \"out_trade_no\":\"" + payLog.getOrderId() + "\"," +//商户订单号
-                        "    \"total_amount\":\"" + Convert.toStr(payLog.getTotalPrice()) + "\"," +
-                        "    \"subject\":\"用户付款\"," +
-                        "    \"store_id\":\"001\"," +
-                        "    \"timeout_express\":\"90m\"}");//订单允许的最晚付款时间
+                request.setBizContent("{" + "    \"out_trade_no\":\"" + payLog.getOrderId() + "\"," + // 商户订单号
+                        "    \"total_amount\":\"" + Convert.toStr(payLog.getTotalPrice()) + "\","
+                        + "    \"subject\":\"用户付款\"," + "    \"store_id\":\"001\","
+                        + "    \"timeout_express\":\"90m\"}");// 订单允许的最晚付款时间
                 try {
                     AlipayTradePrecreateResponse response = alipayClient.execute(request);
                     if (response.getCode().equals("10000")) {
                         map.put("orderNo", payLog.getOrderId());
                         map.put("money", Convert.toStr(payLog.getTotalPrice()));
                         map.put("qrCode", response.getQrCode());
-                        redisTemplate.boundHashOps("payUrlList").put(Convert.toStr(user.getId()), JSONUtil.toJsonStr(map));
+                        redisTemplate.boundHashOps("payUrlList").put(Convert.toStr(user.getId()),
+                                JSONUtil.toJsonStr(map));
                     }
                 } catch (AlipayApiException e) {
                     e.printStackTrace();
@@ -163,10 +169,10 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
     @Override
     public Map<String, String> queryPayStatus(String orderNo) {
         Map map = new HashMap();
-        AlipayTradeQueryRequest request = new AlipayTradeQueryRequest();//创建API对应的request类
-        request.setBizContent("{" + "\"out_trade_no\":\"" + orderNo + "\"" + "}"); //设置业务参数
+        AlipayTradeQueryRequest request = new AlipayTradeQueryRequest();// 创建API对应的request类
+        request.setBizContent("{" + "\"out_trade_no\":\"" + orderNo + "\"" + "}"); // 设置业务参数
         try {
-            AlipayTradeQueryResponse response = alipayClient.execute(request);//通过alipayClient调用API，获得对应的response类
+            AlipayTradeQueryResponse response = alipayClient.execute(request);// 通过alipayClient调用API，获得对应的response类
             if (response.isSuccess()) {
                 map.put("orderStatus", response.getTradeStatus());
                 return map;
@@ -288,8 +294,8 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
             BookVo bookVo = getBookVo(orderInfo);
             bookVoList.add(bookVo);
         }
-        map.put("bookVoList",bookVoList);
-        map.put("order",order);
+        map.put("bookVoList", bookVoList);
+        map.put("order", order);
         return map;
     }
 
