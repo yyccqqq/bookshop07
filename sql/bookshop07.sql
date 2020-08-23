@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost_3306
+ Source Server         : MySQL57
  Source Server Type    : MySQL
- Source Server Version : 50729
+ Source Server Version : 50731
  Source Host           : localhost:3306
  Source Schema         : bookshop07
 
  Target Server Type    : MySQL
- Target Server Version : 50729
+ Target Server Version : 50731
  File Encoding         : 65001
 
- Date: 24/05/2020 20:15:13
+ Date: 23/08/2020 12:32:05
 */
 
 SET NAMES utf8mb4;
@@ -27,7 +27,7 @@ CREATE TABLE `admin`  (
   `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `status` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of admin
@@ -54,22 +54,22 @@ CREATE TABLE `askbook`  (
 -- ----------------------------
 -- Records of askbook
 -- ----------------------------
-INSERT INTO `askbook` VALUES (8, 'http://bookshop.yancq.top:10342/group1/image/33.jpg', '剑来', '烽火戏诸侯', '百花文艺出版社', '仙侠好书', 2, '2020-04-13 21:57:43', 0);
-INSERT INTO `askbook` VALUES (9, 'http://bookshop.yancq.top:10342/group1/image/24.jpg', '自在独行', '贾平凹', '长江文艺出版社', '孤独的思考中学会更热爱世界', 3, '2020-04-13 22:36:18', 0);
-INSERT INTO `askbook` VALUES (10, 'http://bookshop.yancq.top:10342/group1/image/25.jpg', '我在等风，也在等你', '白凝', '现代出版社', '听爱情“朗诵者”的肺腑之言，邂逅更好的爱情。', 3, '2020-04-13 22:38:31', 0);
-INSERT INTO `askbook` VALUES (11, 'http://bookshop.yancq.top:10342/group1/image/26.jpg', '我把活着欢喜过了', '梁秋实', '江苏凤凰文艺出版社', '活只有一种英雄主义，那就是认清生活的真相之后依然热爱生活。', 2, '2020-04-13 22:39:42', 0);
-INSERT INTO `askbook` VALUES (12, 'http://bookshop.yancq.top:10342/group1/image/27.jpg', '厚积落叶听雨声', '朱光潜', '江苏文艺出版社', '始终温和地坐在岁月里，听雨落，听风起', 3, '2020-04-13 22:40:46', 0);
-INSERT INTO `askbook` VALUES (13, 'http://bookshop.yancq.top:10342/group1/image/28.jpg', '边城', '沈从文', '北京十月文艺出版社', '中国现代文学牧歌传说中的佳作', 1, '2020-04-13 22:42:10', 0);
-INSERT INTO `askbook` VALUES (14, 'http://bookshop.yancq.top:10342/group1/image/29.jpg', '湘行散记', '沈从文', '江苏人民出版社', '重寻湘西世界的自由朴野之美！', 1, '2020-04-13 22:43:38', 0);
-INSERT INTO `askbook` VALUES (15, 'http://bookshop.yancq.top:10342/group1/image/30.jpg', '围城', '钱钟书', '人民文学出版社', '用幽默度过艰难时世，以智趣造就岁月风华。', 3, '2020-04-13 22:45:13', 0);
-INSERT INTO `askbook` VALUES (16, 'http://bookshop.yancq.top:10342/group1/image/31.jpg', '许三观卖血记', '余华', '作家出版社', '人在面对厄运时求生的欲望。', 2, '2020-04-13 22:46:43', 0);
-INSERT INTO `askbook` VALUES (17, 'http://bookshop.yancq.top:10342/group1/image/34.jpg', '市场逻辑', '张维迎', '西北大学出版社', '看透市场的底层逻辑，读懂中国40年经济腾飞的历史与未来', 5, '2020-04-22 21:27:17', 0);
-INSERT INTO `askbook` VALUES (18, 'http://bookshop.yancq.top:10342/group1/image/21.jpg', '皮囊', '烽火戏诸侯', '人民文学出版社', '科幻大作，值得一看', 1, '2020-05-20 15:41:03', 1);
-INSERT INTO `askbook` VALUES (19, 'http://bookshop.yancq.top:10342/group1/image/21.jpg', '雪中悍刀行', '烽火戏诸侯', '人民文学出版社', '科幻大作，值得一看', 1, '2020-05-20 15:52:18', 1);
-INSERT INTO `askbook` VALUES (20, 'http://bookshop.yancq.top:10342/group1/image/23.jpg', '皮囊', '蔡崇达', '人民文学出版社', '科幻大作，值得一看', 1, '2020-05-20 15:58:17', 1);
-INSERT INTO `askbook` VALUES (21, 'http://bookshop.yancq.top:10342/group1/image/23.jpg', '皮囊', '蔡崇达', '人民文学出版社', '科幻大作，值得一看', 1, '2020-05-20 16:08:16', 1);
-INSERT INTO `askbook` VALUES (22, 'http://bookshop.yancq.top:10342/group1/image/40.jpg', '慢煮生活', '汪曾祺', '江苏凤凰文艺出版社', '无论何时都认真生活', 1, '2020-05-22 23:20:19', 0);
-INSERT INTO `askbook` VALUES (23, 'http://bookshop.yancq.top:10342/group1/image/41.jpg', '围城', '钱钟书', '人民出版社', '好书', 1, '2020-05-24 17:04:48', 1);
+INSERT INTO `askbook` VALUES (8, 'http://gofastdfs.yancq.top:10342/group1/image/33.jpg', '剑来', '烽火戏诸侯', '百花文艺出版社', '仙侠好书', 2, '2020-04-13 21:57:43', 0);
+INSERT INTO `askbook` VALUES (9, 'http://gofastdfs.yancq.top:10342/group1/image/24.jpg', '自在独行', '贾平凹', '长江文艺出版社', '孤独的思考中学会更热爱世界', 3, '2020-04-13 22:36:18', 0);
+INSERT INTO `askbook` VALUES (10, 'http://gofastdfs.yancq.top:10342/group1/image/25.jpg', '我在等风，也在等你', '白凝', '现代出版社', '听爱情“朗诵者”的肺腑之言，邂逅更好的爱情。', 3, '2020-04-13 22:38:31', 0);
+INSERT INTO `askbook` VALUES (11, 'http://gofastdfs.yancq.top:10342/group1/image/26.jpg', '我把活着欢喜过了', '梁秋实', '江苏凤凰文艺出版社', '活只有一种英雄主义，那就是认清生活的真相之后依然热爱生活。', 2, '2020-04-13 22:39:42', 0);
+INSERT INTO `askbook` VALUES (12, 'http://gofastdfs.yancq.top:10342/group1/image/27.jpg', '厚积落叶听雨声', '朱光潜', '江苏文艺出版社', '始终温和地坐在岁月里，听雨落，听风起', 3, '2020-04-13 22:40:46', 0);
+INSERT INTO `askbook` VALUES (13, 'http://gofastdfs.yancq.top:10342/group1/image/28.jpg', '边城', '沈从文', '北京十月文艺出版社', '中国现代文学牧歌传说中的佳作', 1, '2020-04-13 22:42:10', 0);
+INSERT INTO `askbook` VALUES (14, 'http://gofastdfs.yancq.top:10342/group1/image/29.jpg', '湘行散记', '沈从文', '江苏人民出版社', '重寻湘西世界的自由朴野之美！', 1, '2020-04-13 22:43:38', 0);
+INSERT INTO `askbook` VALUES (15, 'http://gofastdfs.yancq.top:10342/group1/image/30.jpg', '围城', '钱钟书', '人民文学出版社', '用幽默度过艰难时世，以智趣造就岁月风华。', 3, '2020-04-13 22:45:13', 0);
+INSERT INTO `askbook` VALUES (16, 'http://gofastdfs.yancq.top:10342/group1/image/31.jpg', '许三观卖血记', '余华', '作家出版社', '人在面对厄运时求生的欲望。', 2, '2020-04-13 22:46:43', 0);
+INSERT INTO `askbook` VALUES (17, 'http://gofastdfs.yancq.top:10342/group1/image/34.jpg', '市场逻辑', '张维迎', '西北大学出版社', '看透市场的底层逻辑，读懂中国40年经济腾飞的历史与未来', 5, '2020-04-22 21:27:17', 0);
+INSERT INTO `askbook` VALUES (18, 'http://gofastdfs.yancq.top:10342/group1/image/21.jpg', '皮囊', '烽火戏诸侯', '人民文学出版社', '科幻大作，值得一看', 1, '2020-05-20 15:41:03', 1);
+INSERT INTO `askbook` VALUES (19, 'http://gofastdfs.yancq.top:10342/group1/image/21.jpg', '雪中悍刀行', '烽火戏诸侯', '人民文学出版社', '科幻大作，值得一看', 1, '2020-05-20 15:52:18', 1);
+INSERT INTO `askbook` VALUES (20, 'http://gofastdfs.yancq.top:10342/group1/image/23.jpg', '皮囊', '蔡崇达', '人民文学出版社', '科幻大作，值得一看', 1, '2020-05-20 15:58:17', 1);
+INSERT INTO `askbook` VALUES (21, 'http://gofastdfs.yancq.top:10342/group1/image/23.jpg', '皮囊', '蔡崇达', '人民文学出版社', '科幻大作，值得一看', 1, '2020-05-20 16:08:16', 1);
+INSERT INTO `askbook` VALUES (22, 'http://gofastdfs.yancq.top:10342/group1/image/40.jpg', '慢煮生活', '汪曾祺', '江苏凤凰文艺出版社', '无论何时都认真生活', 1, '2020-05-22 23:20:19', 0);
+INSERT INTO `askbook` VALUES (23, 'http://gofastdfs.yancq.top:10342/group1/image/41.jpg', '围城', '钱钟书', '人民出版社', '好书', 1, '2020-05-24 17:04:48', 1);
 
 -- ----------------------------
 -- Table structure for book
@@ -227,19 +227,19 @@ INSERT INTO `bookimage` VALUES (44, 86, 'http://bookshop.yancq.top:10340/booksho
 INSERT INTO `bookimage` VALUES (45, 87, 'http://bookshop.yancq.top:10340/bookshop/img/book-list/article/83.jpg');
 INSERT INTO `bookimage` VALUES (46, 88, 'http://bookshop.yancq.top:10340/bookshop/img/book-list/article/84.jpg');
 INSERT INTO `bookimage` VALUES (47, 10, 'http://bookshop.yancq.top:10340/bookshop/img/book-list/article/9.jpg');
-INSERT INTO `bookimage` VALUES (48, 89, 'http://bookshop.yancq.top:10342/group1/image/20.jpg');
-INSERT INTO `bookimage` VALUES (51, 92, 'http://bookshop.yancq.top:10342/group1/image/32.jpg');
-INSERT INTO `bookimage` VALUES (52, 93, 'http://bookshop.yancq.top:10342/group1/image/19.jpg');
-INSERT INTO `bookimage` VALUES (53, 94, 'http://bookshop.yancq.top:10342/group1/image/21.jpg');
-INSERT INTO `bookimage` VALUES (54, 95, 'http://bookshop.yancq.top:10342/group1/image/22.jpg');
-INSERT INTO `bookimage` VALUES (55, 96, 'http://bookshop.yancq.top:10342/group1/image/23.jpg');
-INSERT INTO `bookimage` VALUES (57, 98, 'http://bookshop.yancq.top:10342/group1/image/35.jpg');
-INSERT INTO `bookimage` VALUES (58, 99, 'http://bookshop.yancq.top:10342/group1/image/36.jpg');
-INSERT INTO `bookimage` VALUES (59, 100, 'http://bookshop.yancq.top:10342/group1/image/37.jpg');
-INSERT INTO `bookimage` VALUES (60, 101, 'http://bookshop.yancq.top:10342/group1/image/38.jpg');
-INSERT INTO `bookimage` VALUES (61, 102, 'http://bookshop.yancq.top:10342/group1/image/39.jpg');
-INSERT INTO `bookimage` VALUES (62, 103, 'http://bookshop.yancq.top:10342/group1/image/33.jpg');
-INSERT INTO `bookimage` VALUES (63, 104, 'http://bookshop.yancq.top:10342/group1/image/41.jpg');
+INSERT INTO `bookimage` VALUES (48, 89, 'http://gofastdfs.yancq.top:10342/group1/image/20.jpg');
+INSERT INTO `bookimage` VALUES (51, 92, 'http://gofastdfs.yancq.top:10342/group1/image/32.jpg');
+INSERT INTO `bookimage` VALUES (52, 93, 'http://gofastdfs.yancq.top:10342/group1/image/19.jpg');
+INSERT INTO `bookimage` VALUES (53, 94, 'http://gofastdfs.yancq.top:10342/group1/image/21.jpg');
+INSERT INTO `bookimage` VALUES (54, 95, 'http://gofastdfs.yancq.top:10342/group1/image/22.jpg');
+INSERT INTO `bookimage` VALUES (55, 96, 'http://gofastdfs.yancq.top:10342/group1/image/23.jpg');
+INSERT INTO `bookimage` VALUES (57, 98, 'http://gofastdfs.yancq.top:10342/group1/image/35.jpg');
+INSERT INTO `bookimage` VALUES (58, 99, 'http://gofastdfs.yancq.top:10342/group1/image/36.jpg');
+INSERT INTO `bookimage` VALUES (59, 100, 'http://gofastdfs.yancq.top:10342/group1/image/37.jpg');
+INSERT INTO `bookimage` VALUES (60, 101, 'http://gofastdfs.yancq.top:10342/group1/image/38.jpg');
+INSERT INTO `bookimage` VALUES (61, 102, 'http://gofastdfs.yancq.top:10342/group1/image/39.jpg');
+INSERT INTO `bookimage` VALUES (62, 103, 'http://gofastdfs.yancq.top:10342/group1/image/33.jpg');
+INSERT INTO `bookimage` VALUES (63, 104, 'http://gofastdfs.yancq.top:10342/group1/image/41.jpg');
 
 -- ----------------------------
 -- Table structure for cart
@@ -289,7 +289,7 @@ CREATE TABLE `order_info`  (
   `order_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `book_id` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 39 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 39 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of order_info

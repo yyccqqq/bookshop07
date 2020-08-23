@@ -20,8 +20,8 @@ public class LocalDateTimeFormat implements Format {
             return null;
         }
         if (!LocalDateTime.class.isAssignableFrom(data.getClass())) {
-            throw new RuntimeException("format failed, expectedClass:" + LocalDateTime.class
-                    + " actualClass:" + data.getClass());
+            throw new RuntimeException(
+                    "format failed, expectedClass:" + LocalDateTime.class + " actualClass:" + data.getClass());
         }
         LocalDateTime localDateTime = (LocalDateTime) data;
         DateTimeFormatter dateTimeFormatter = genDateTimeFormatter(pattern);

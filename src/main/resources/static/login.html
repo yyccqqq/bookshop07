@@ -1,33 +1,77 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>校园二手书交易平台</title>
-	<link rel="stylesheet" type="text/css" href="css/reset.css">
-	<link rel="stylesheet" type="text/css" href="css/login.css">
-	<link rel="stylesheet" type="text/css" href="plugin/layui/css/layui.css">
-	<link href="http://gofastdfs.yancq.top:10342/group1/logo/logo.jpg" rel="icon" type="image/x-icon" />
-	<link href="http://gofastdfs.yancq.top:10342/group1/logo/logo.jpg" rel="shortcut icon" type="image/x-icon" />
-	<script src="js/jquery-3.2.js" type="text/javascript" charset="utf-8"></script>
-	<script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
-	<script src="https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js"></script>
-	<script src="js/base_nopagination.js" type="text/javascript" charset="utf-8"></script>
-	<script src="plugin/layui/layui.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/controller/baseController.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/service/userService.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/controller/userController.js" type="text/javascript" charset="utf-8"></script>
-</head>
-<body>
-	<div id="login-container" ng-app="bookshop" ng-controller="userController">
-		<h3>校园二手书交易平台</h3>
-		<form method="post">
-			<input type="text" name="studentId" class="userName" placeholder="学号" ng-model="entity.studentId"><br/>
-			<input type="password" name="password" class="password" placeholder="密码" ng-model="entity.password"><br/>
-			<a class="register" href="register.html">注册</a>
-			<a class="forgetPass" href="password.html">忘记密码?</a><br/>
-			<button class="loginBtn" ng-click="login()">登录</button><br/>
-		</form>
-	</div>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>校园二手书交易平台</title>
+    <link rel="stylesheet" type="text/css" href="css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="css/login.css" />
+    <link rel="stylesheet" type="text/css" href="plugin/layui/css/layui.css" />
+    <link
+      href="http://gofastdfs.yancq.top:10342/group1/logo/logo.jpg"
+      rel="icon"
+      type="image/x-icon"
+    />
+    <link
+      href="http://gofastdfs.yancq.top:10342/group1/logo/logo.jpg"
+      rel="shortcut icon"
+      type="image/x-icon"
+    />
+    <script
+      src="js/jquery-3.2.js"
+      type="text/javascript"
+      charset="utf-8"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+    <script src="https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js"></script>
+    <script
+      src="js/base_nopagination.js"
+      type="text/javascript"
+      charset="utf-8"
+    ></script>
+    <script
+      src="plugin/layui/layui.js"
+      type="text/javascript"
+      charset="utf-8"
+    ></script>
+    <script
+      src="js/controller/baseController.js"
+      type="text/javascript"
+      charset="utf-8"
+    ></script>
+    <script
+      src="js/service/userService.js"
+      type="text/javascript"
+      charset="utf-8"
+    ></script>
+    <script
+      src="js/controller/userController.js"
+      type="text/javascript"
+      charset="utf-8"
+    ></script>
+  </head>
+  <body>
+    <div id="login-container" ng-app="bookshop" ng-controller="userController">
+      <h3>校园二手书交易平台</h3>
+      <form method="post">
+        <input
+          type="text"
+          name="studentId"
+          class="userName"
+          placeholder="学号"
+          ng-model="entity.studentId"
+        /><br />
+        <input
+          type="password"
+          name="password"
+          class="password"
+          placeholder="密码"
+          ng-model="entity.password"
+        /><br />
+        <a class="register" href="register.html">注册</a>
+        <a class="forgetPass" href="password.html">忘记密码?</a><br />
+        <button class="loginBtn" ng-click="login()">登录</button><br />
+      </form>
+    </div>
+  </body>
 </html>
