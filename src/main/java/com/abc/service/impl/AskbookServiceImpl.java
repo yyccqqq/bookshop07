@@ -17,6 +17,8 @@ import org.beetl.core.Configuration;
 import org.beetl.core.GroupTemplate;
 import org.beetl.core.Template;
 import org.beetl.core.resource.WebAppResourceLoader;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,7 +57,11 @@ public class AskbookServiceImpl extends ServiceImpl<AskbookMapper, Askbook> impl
 
         Map<String, Integer> map = new HashMap<>();
         map.put("bookId", askbook.getId());
-        rabbitTemplate.convertAndSend("AskBookDirectExchange", "AskBookDirectRouting", map);
+        byte[] bytes = new byte[1024];
+        MessageProperties messageProperties = new MessageProperties();
+        messageProperties.setHeader("key","value");
+        Message message = new Message(bytes,messageProperties);
+        rabbitTemplate.convertAndSend("AskBookDirectExchange", "AskBookDirectRouting", message);
     }
 
     @Override

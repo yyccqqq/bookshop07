@@ -1,6 +1,10 @@
 package com.abc;
 
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.io.resource.InputStreamResource;
+import cn.hutool.crypto.SecureUtil;
+import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
 import com.abc.component.beetl.LocalDateTimeFormat;
 import com.abc.component.elasticsearch.ESBookRepository;
@@ -27,9 +31,12 @@ import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -141,4 +148,50 @@ public class Bookshop07ApplicationTests {
             template.renderTo(out);
         }
     }
+
+    @Test
+    public void replaceURL(){
+        List<Bookimage> bookimageList = bookimageMapper.selectList(null);
+        bookimageList.forEach(bookimage -> {
+            if(bookimage.getImage().startsWith("http")){
+                String imageName = bookimage.getImage().substring(bookimage.getImage().lastIndexOf("/") + 1);
+                String path ="D:/Projects/bookshop07/src/main/resources/static/img/book-list/article/"+imageName;
+                try {
+                    File file = new File(path);
+                    InputStreamResource isr = new InputStreamResource(FileUtil.getInputStream(file), file.getName());
+                    Map<String, Object> paramMap = new HashMap<>();
+                    paramMap.put("file", isr);
+                    paramMap.put("path", "image");
+                    paramMap.put("output", "json");
+                    paramMap.put("scene", "image");
+                    String md5 = SecureUtil.md5(FileUtil.getInputStream(file));
+                    String uploadPath = "http://155.94.144.151:10340/group1/upload" + "?md5=" + md5 + "&output=json";
+                    String resp = HttpUtil.post(uploadPath, paramMap);
+                    Map<String, Object> result = JSONUtil.toBean(resp, Map.class);
+                    String url = "http://155.94.144.151:10340" + Convert.toStr(result.get("path"));
+                    bookimage.setImage(url);
+                    bookimageMapper.updateById(bookimage);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    @Test
+    public void replaceURL2(){
+       /* List<Bookimage> bookimageList = bookimageMapper.selectList(null);
+        bookimageList.forEach(bookimage -> {
+            String replaceStr = bookimage.getImage().replace("http://192.168.124.129:8080", "http://155.94.144.151:10340");
+            bookimage.setImage(replaceStr);
+            bookimageMapper.updateById(bookimage);
+        });*/
+        List<Askbook> askbooks = askbookMapper.selectList(null);
+        askbooks.forEach(askbook -> {
+            String replaceStr = askbook.getImage().replace("http://192.168.124.129:8080", "http://155.94.144.151:10340");
+            askbook.setImage(replaceStr);
+            askbookMapper.updateById(askbook);
+        });
+    }
 }
+

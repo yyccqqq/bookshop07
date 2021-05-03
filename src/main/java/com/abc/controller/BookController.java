@@ -52,9 +52,9 @@ public class BookController {
     @Autowired
     private IBookimageService bookimageService;
 
-    private final static String uploadPath = "http://gofastdfs.yancq.top:10342/group1/upload";
+    private final static String uploadPath = "http://155.94.144.151:10340/group1/upload";
 
-    private final static String deletePath = "http://gofastdfs.yancq.top:10342/group1/delete";
+    private final static String deletePath = "http://155.94.144.151:10340/group1/delete";
 
     @GetMapping("/findBook")
     public Map<String, Object> findBook() {
@@ -110,7 +110,7 @@ public class BookController {
             String path = uploadPath + "?md5=" + md5 + "&output=json";
             String resp = HttpUtil.post(path, paramMap);
             Map<String, Object> result = JSONUtil.toBean(resp, Map.class);
-            String url = "http://gofastdfs.yancq.top:10342" + Convert.toStr(result.get("path"));
+            String url = "http://155.94.144.151:10340" + Convert.toStr(result.get("path"));
             return new Result(true, url);
         } catch (IOException e) {
             e.printStackTrace();
