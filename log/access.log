@@ -1,0 +1,3 @@
+2021-05-03 22:51:09.481 [main] [] INFO  com.abc.BookshopApplication - Starting BookshopApplication on LAPTOP-A0LEJSMR with PID 16284 (D:\Projects\bookshop07\target\classes started by yancc in D:\Projects\bookshop07)
+2021-05-03 22:51:09.484 [main] [] INFO  com.abc.BookshopApplication - No active profile set, falling back to default profiles: default
+2021-05-03 22:51:18.667 [main] [] INFO  com.abc.BookshopApplication - Started BookshopApplication in 9.525 seconds (JVM running for 11.006)

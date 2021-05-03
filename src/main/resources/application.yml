@@ -53,9 +53,6 @@ beetl-beetlsql:
   dev: false
 
 logging:
-  pattern:
-    console: level - %p - %m%n
-  level:
-    root: warn
+  config: classpath:log/logback-spring.xml
 
 
